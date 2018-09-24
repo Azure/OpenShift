@@ -54,7 +54,7 @@ Use the [az ad app create][az-ad-app-create] commnand to create a Managed Applic
 The following example creates a managed application named `myOSACluster` with the password `myOSACluster` with a unique identifier `https://microsoft.onmicrosoft.com/myOSACluster123` and the following reply url : `https://myOSACluster.eastus.cloudapp.azure.comoauth2callback/Azure%20AD`.
 
 ```azurecli-interactive
-az ad app create --display-name myOSACluster --key-type Password --password myOSACluster --identifier-uris https://microsoft.onmicrosoft.com/myOSACluster123 --reply-urls https://juosacli71.eastus.cloudapp.azure.comoauth2callback/Azure%20AD`
+az ad app create --display-name myOSACluster --key-type Password --password myOSACluster --identifier-uris https://microsoft.onmicrosoft.com/myOSACluster123 --reply-urls https://myOSACluster.eastus.cloudapp.azure.comoauth2callback/Azure%20AD`
 ```
 
 Snippet Output :
@@ -88,10 +88,17 @@ After several minutes, the command completes and returns JSON-formatted informat
 
 ## Connect to the cluster
 
-# TODO
+After you deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
 
-> [!div class="nextstepaction"]
-> [OSA tutorial][osa-tutorial]
+For example : `https://myOSACluster.eastus.cloudapp.azure`
+
+> You will have a `NET::ERR_CERT_AUTHORITY_INVALID` error from your browser, you will have to validate the connexion manually.
+
+Click on `Azure AD`
+
+![](./medias/OSA_Auth.png)
+
+![](./medias/OSA_Console.png)
 
 <!-- LINKS - external -->
 [kubectl]: https://kubernetes.io/docs/user-guide/kubectl/
