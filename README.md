@@ -4,7 +4,6 @@
 
 This repo is intended for tracking issues with Managed OpenShift on Azure (OSA). It is monitored by the OSA product team, but support is provided on a best-effort basis. For direct customer support, please take a look at the [Azure Support options](https://azure.microsoft.com/support/options/). Note that the following channels are also monitored and should be used as suggested:
 
-- Issues with the OSS OpenShift Azure project: [OpenShift Azure repo](https://github.com/openshift/openshift-azure)
 - Updates about the service, including new features and new Azure regions: [OpenShift feed in Azure Updates](https://azure.microsoft.com/updates/?product=kubernetes-service)
 
 ## Code of conduct
