@@ -43,7 +43,7 @@ Output:
 }
 ```
 
-## Create a Managed Application Credentials
+## Step 1: Create a Managed Application Credentials
 
 Use the [az ad app create][az-ad-app-create] commnand to create a Managed Application credentials will allow the cluster to run the authentication against Azure AD. We will have to pass some settings such as :
 - The `display-name` to identify the application.
@@ -74,7 +74,7 @@ Snippet Output :
 
 Take a note of the `appId` from the output.
 
-## Create OpenShift cluster
+## Step 2: Create OpenShift cluster
 
 Use the [az openshift create][az-openshift-create] command to create an OpenShift cluster. The following example creates a cluster named *myOSACluster* with four nodes.
 
@@ -86,7 +86,15 @@ az openshift create --resource-group myOSACluster --name myOSACluster -l eastus 
 
 After several minutes, the command completes and returns JSON-formatted information about the cluster.
 
-## Connect to the cluster
+## Step 3: Update Reply URLs in AAD app
+Update the reply URLs in AAD app created in step 1 with FQDN of your newly created OSA cluster and save.
+
+Value of reply URL should be: https://<YOUR_FQDN>/oauth2callback/Azure%20AD
+
+E.g.:
+![](./medias/OSA_ReplyURL.png)
+
+## Step 4: Connect to the cluster
 
 After you deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
 
@@ -99,6 +107,17 @@ Click on `Azure AD`
 ![](./medias/OSA_Auth.png)
 
 ![](./medias/OSA_Console.png)
+
+## Step 5: Using OC CLI
+Click on the upper right corner (profile name) to get the CLI login information. You need the OC CLI which can be downloaded from https://github.com/openshift/origin/releases (or from brew for macOS using openshift-cli formula)
+
+![](./medias/OSA_CLI.png)
+ 
+Login using OC CLI by copying the command above:
+```
+oc login <FQDN> --token=<YOUR_TOKEN>
+```
+
 
 <!-- LINKS - external -->
 [kubectl]: https://kubernetes.io/docs/user-guide/kubectl/
