@@ -3,7 +3,7 @@ title: Quickstart - Deploy a Managed OpenShift cluster
 description: Quickly learn to create a Managed OpenShift cluster for Linux containers with the Azure CLI.
 services: container-service
 author: juliens
-manager: qik
+manager: qike
 
 ms.service: container-service
 ms.topic: quickstart
