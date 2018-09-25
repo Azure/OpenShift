@@ -1,5 +1,5 @@
 ---
-title: Quickstart - Deploy a Managed Openshift cluster
+title: Quickstart - Deploy a Managed OpenShift cluster
 description: Quickly learn to create a Managed OpenShift cluster for Linux containers with the Azure CLI.
 services: container-service
 author: juliens
@@ -11,7 +11,7 @@ ms.date: 09/24/2018
 ms.author: juliens
 ---
 
-# Quickstart: Deploy a Managed Openshift cluster
+# Quickstart: Deploy a Managed OpenShift cluster
 
 In this quickstart, an Managed OpenShift cluster is deployed using the Azure CLI.
 
@@ -48,13 +48,21 @@ Output:
 Use the [az ad app create][az-ad-app-create] commnand to create a Managed Application credentials will allow the cluster to run the authentication against Azure AD. We will have to pass some settings such as :
 - The `display-name` to identify the application.
 - The `password` this could be set directly from the `create` command.
-- A unique `--identifier-uris` this have to be unique. The could be : `https://microsoft.onmicrosoft.com/<ClusterName>`
+- A unique `--identifier-uris` **this have to be unique**. This could be : `https://microsoft.onmicrosoft.com/<ClusterName>`
 - A unique `--reply-urls` this have to match the `fqdn` of your cluster. The format have to be : `https://<ClusterName>.<Location>.cloudapp.azure.com/oauth2callback/Azure%20AD`
 
-The following example creates a managed application named `myOSACluster` with the password `myOSACluster` with a unique identifier `https://microsoft.onmicrosoft.com/myOSACluster123` and the following reply url : `https://myOSACluster.eastus.cloudapp.azure.comoauth2callback/Azure%20AD`.
+The following example creates a managed application named `myOSACluster` with the password `myOSACluster` with a unique identifier `https://microsoft.onmicrosoft.com/myOSACluster` and the following reply url : `https://myOSACluster.eastus.cloudapp.azure.comoauth2callback/Azure%20AD`.
 
 ```azurecli-interactive
-az ad app create --display-name myOSACluster --key-type Password --password myOSACluster --identifier-uris https://microsoft.onmicrosoft.com/myOSACluster123 --reply-urls https://myOSACluster.eastus.cloudapp.azure.comoauth2callback/Azure%20AD`
+export OSA_CLUSTER_NAME=myOSACluster
+export OSA_AAD_SECRET=MyAw3s0meP@ssw0rd!
+export OSA_AAD_IDENTIFIER=https://microsoft.onmicrosoft.com/myOSACluster123
+export OSA_AAD_REPLY_URL=https://myOSACluster.eastus.cloudapp.azure.com/oauth2callback/Azure%20AD
+
+az ad app create --display-name $OSA_CLUSTER_NAME \
+                 --key-type Password --password $OSA_AAD_SECRET \
+                 --identifier-uris $OSA_AAD_IDENTIFIER \
+                 --reply-urls $OSA_AAD_REPLY_URL
 ```
 
 Snippet Output :
@@ -76,22 +84,46 @@ Take a note of the `appId` from the output.
 
 ## Step 2: Create OpenShift cluster
 
-Use the [az openshift create][az-openshift-create] command to create an OpenShift cluster. The following example creates a cluster named *myOSACluster* with four nodes.
+Use the [az openshift create][az-openshift-create] command to create an OpenShift cluster. 
+The following example creates a cluster named *myOSACluster* with four nodes.
 
 ```azurecli-interactive
-az openshift create --resource-group myOSACluster --name myOSACluster -l eastus --node-count 4 --fqdn 'myOSACluster.eastus.cloudapp.azure.com' --aad-client-app-secret 'myOSACluster' --aad-tenant-id '72f988bf-86f1-41af-91ab-2d7cd011db47' --aad-client-app-id '57b4f673-af45-1223-1234-efb12fc0cd16'
+export OSA_CLUSTER_NAME=myOSACluster
+export OSA_RG_NAME=myOSACluster
+export OSA_LOCATION=eastus
+export OSA_FQDN=myOSACluster.eastus.cloudapp.azure.com
+export OSA_AAD_ID=57b4f673-af45-1223-1234-efb12fc0cd16
+export OSA_AAD_SECRET=MyAw3s0meP@ssw0rd!
+export OSA_AAD_TENANT=72f988bf-86f1-41af-91ab-2d7cd011db47
+
+
+az openshift create --resource-group $myOSACluster --name $OSA_CLUSTER_NAME \
+                    -l $eastus --node-count 4 --fqdn $OSA_FQDN \
+                    --aad-client-app-id $OSA_AAD_ID \ 
+                    --aad-client-app-secret $OSA_AAD_SECRET \
+                    --aad-tenant-id $OSA_AAD_TENANT
 ```
 
 > Note : To get the tenant ID of your current subscription you can run the following command `az account list`
 
 After several minutes, the command completes and returns JSON-formatted information about the cluster.
 
-## Step 3: Update Reply URLs in AAD app
-Update the reply URLs in AAD app created in step 1 with FQDN of your newly created OSA cluster and save.
+## Step 3: Verify / Update Reply URLs in AAD app
 
-Value of reply URL should be: https://<YOUR_FQDN>/oauth2callback/Azure%20AD
+In case you did not specify the correct `OSA_AAD_REPLY_URL` variable in the script part 1, or if you want to update the reply URLs of your AAD app with a new FQDN, you can do it from the Azure Portal. 
 
-E.g.:
+Do a search for `App registrations` at the top and navigate to it.
+
+![](./medias/OSA_APP_Portal.png)
+
+Search for your AAD name with the `All apps` filter on and click on it to get more informations.
+
+![](./medias/OSA_APP_Infos.png)
+
+Click on `Settings` and go in the `Reply URLs` section. 
+
+Change or add a value, reminder, this should be using this format : `https://<YOUR_FQDN>/oauth2callback/Azure%20AD`
+
 ![](./medias/OSA_ReplyURL.png)
 
 ## Step 4: Connect to the cluster
@@ -109,9 +141,14 @@ Click on `Azure AD`
 ![](./medias/OSA_Console.png)
 
 ## Step 5: Using OC CLI
-Click on the upper right corner (profile name) to get the CLI login information. You need the OC CLI which can be downloaded from https://github.com/openshift/origin/releases (or from brew for macOS using openshift-cli formula)
+Click on the upper right corner (profile name) to get the CLI login information. 
 
 ![](./medias/OSA_CLI.png)
+
+You need the OC CLI which can be downloaded from https://github.com/openshift/origin/releases
+
+> Using MacOS, you can easly install it with homebrew `brew install openshift-cli
+`
  
 Login using OC CLI by copying the command above:
 ```
@@ -120,7 +157,7 @@ oc login <FQDN> --token=<YOUR_TOKEN>
 
 
 <!-- LINKS - external -->
-[kubectl]: https://kubernetes.io/docs/user-guide/kubectl/
+[OpenShift CLI]: https://github.com/openshift/origin/releases
 
 <!-- LINKS - internal -->
 [az-group-create]: /cli/azure/group#az-group-create
