@@ -18,7 +18,7 @@ In this quickstart, an Managed OpenShift cluster is deployed using the Azure CLI
 
 This quickstart requires that you are running the Azure CLI version 2.0.46 or later. Run `az --version` to find the version. If you need to install or upgrade, see [Install Azure CLI][azure-cli-install].
 
-## Create a resource group
+## Step 0: Create a resource group
 
 Create a resource group with the [az group create][az-group-create] command. An Azure resource group is a logical group in which Azure resources are deployed and managed. When you create a resource group, you are asked to specify a location. This location is where your resources run in Azure.
 
