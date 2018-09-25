@@ -13,10 +13,27 @@ ms.author: juliens
 
 # Quickstart: Deploy a Managed OpenShift cluster
 
+# Prerequisites and Warning !
+
 In this quickstart, an Managed OpenShift cluster is deployed using the Azure CLI.
 
+OpenShift on Azure is in private preview. For this reason we are using a custom build of the Azure CLI.
 
-This quickstart requires that you are running the Azure CLI version 2.0.46 or later. Run `az --version` to find the version. If you need to install or upgrade, see [Install Azure CLI][azure-cli-install].
+To use it, you have to make sure Docker is installed on your machine.
+
+[More informations on how to install Docker can be found here.](https://docs.docker.com/install/)
+
+> **This CLI support is provided on a best-effort basis. Please open Issues on this repo if have questions or concerns.**
+
+The build of this CLI is under the `julienstroheker/osa-cli` container.
+
+To start your `az` operations, you can do it using `docker run --rm -it julienstroheker/osa-cli /bin/bash` command. This command will give you a bash inside the container where the `az openshift` commands are available.
+
+From this bash your should be able to run any `az` commands and the `az openshift` one.
+
+![](./medias/OSA_AZ_CLI.png)
+
+The first step will be to authenticated yourself by running the `az login` command.
 
 ## Step 0: Create a resource group
 
