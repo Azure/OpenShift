@@ -25,7 +25,10 @@ Create a resource group with the [az group create][az-group-create] command. An 
 The following example creates a resource group named *myOSACluster* in the *eastus* location.
 
 ```azurecli-interactive
-az group create --name myOSACluster --location eastus
+export OSA_CLUSTER_NAME=myOSACluster
+export LOCATION=eastus
+
+az group create --name $OSA_CLUSTER_NAME --location $LOCATION
 ```
 
 Output:
@@ -110,25 +113,27 @@ After several minutes, the command completes and returns JSON-formatted informat
 
 ## Step 3: Verify / Update Reply URLs in AAD app
 
-In case you did not specify the correct `OSA_AAD_REPLY_URL` variable in the script part 1, or if you want to update the reply URLs of your AAD app with a new FQDN, you can do it from the Azure Portal. 
+If AAD app was created using Step 1 you can skip this step. If you have an existing Web app/API type AAD application you can update the reply URLs in AAD app with FQDN of your newly created OSA cluster. 
 
-Do a search for `App registrations` at the top and navigate to it.
+Do a search for `App registrations` in the search section located at the tep and navigate to it.
 
 ![](./medias/OSA_APP_Portal.png)
 
-Search for your AAD name with the `All apps` filter on and click on it to get more informations.
+Search for your `AAD name` with the `All apps` filter on, and click on it to get more informations.
 
 ![](./medias/OSA_APP_Infos.png)
 
 Click on `Settings` and go in the `Reply URLs` section. 
 
-Change or add a value, reminder, this should be using this format : `https://<YOUR_FQDN>/oauth2callback/Azure%20AD`
+Change or add a value. 
 
 ![](./medias/OSA_ReplyURL.png)
 
+> Reminder, this should be using this format : `https://<YOUR_FQDN>/oauth2callback/Azure%20AD`
+
 ## Step 4: Connect to the cluster
 
-After you deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
+After your deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
 
 For example : `https://myOSACluster.eastus.cloudapp.azure`
 
