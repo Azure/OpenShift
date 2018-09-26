@@ -68,7 +68,7 @@ Use the [az ad app create][az-ad-app-create] commnand to create a Managed Applic
 - A unique `--identifier-uris` **this have to be unique**. This could be : `https://microsoft.onmicrosoft.com/<ClusterName>`
 - A unique `--reply-urls` this have to match the `fqdn` of your cluster. The format have to be : `https://<ClusterName>.<Location>.cloudapp.azure.com/oauth2callback/Azure%20AD`
 
-The following example creates a managed application named `myOSACluster` with the password `myOSACluster` with a unique identifier `https://microsoft.onmicrosoft.com/myOSACluster` and the following reply url : `https://myOSACluster.eastus.cloudapp.azure.comoauth2callback/Azure%20AD`.
+The following example creates a managed application named `myOSACluster` with the password `myOSACluster` with a unique identifier `https://microsoft.onmicrosoft.com/myOSACluster` and the following reply url : `https://myOSACluster.eastus.cloudapp.azure.com/oauth2callback/Azure%20AD`.
 
 ```azurecli-interactive
 export OSA_CLUSTER_NAME=myOSACluster
