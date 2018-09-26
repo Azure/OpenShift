@@ -101,7 +101,7 @@ Take a note of the `appId` from the output.
 
 ## Step 2: Create OpenShift cluster
 
-Use the [az openshift create][az-openshift-create] command to create an OpenShift cluster. 
+Use the `az openshift create` command to create an OpenShift cluster. 
 The following example creates a cluster named *myOSACluster* with four nodes.
 
 ```azurecli-interactive
@@ -120,8 +120,9 @@ az openshift create --resource-group $myOSACluster --name $OSA_CLUSTER_NAME \
                     --aad-client-app-secret $OSA_AAD_SECRET \
                     --aad-tenant-id $OSA_AAD_TENANT
 ```
+> `OSA_AAD_ID` is the `appId` value from the previous command in Step 2.
 
-> Note : To get the tenant ID of your current subscription you can run the following command `az account list`
+> To get the tenant ID of your current subscription you can run the following command `az account list`
 
 After several minutes, the command completes and returns JSON-formatted information about the cluster.
 
