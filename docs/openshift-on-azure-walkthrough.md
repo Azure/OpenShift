@@ -34,7 +34,7 @@ The first step will be to authenticated yourself by running the `az login` comma
 
 ## Step 0: Create a resource group
 
-Create a resource group with the [az group create][az-group-create] command. An Azure resource group is a logical group in which Azure resources are deployed and managed. When you create a resource group, you are asked to specify a location. This location is where your resources run in Azure.
+Create a resource group with the `az group create` command. An Azure resource group is a logical group in which Azure resources are deployed and managed. When you create a resource group, you are asked to specify a location. This location is where your resources run in Azure.
 
 The following example creates a resource group named *myOSACluster* in the *eastus* location.
 
@@ -62,7 +62,7 @@ Output:
 
 ## Step 1: Create a Managed Application Credentials
 
-Use the [az ad app create][az-ad-app-create] commnand to create a Managed Application credentials will allow the cluster to run the authentication against Azure AD. We will have to pass some settings such as :
+Use the `az ad app create` commnand to create a Managed Application credentials will allow the cluster to run the authentication against Azure AD. We will have to pass some settings such as :
 - The `display-name` to identify the application.
 - The `password` this could be set directly from the `create` command.
 - A unique `--identifier-uris` **this have to be unique**. This could be : `https://microsoft.onmicrosoft.com/<ClusterName>`
@@ -150,7 +150,7 @@ Change or add a value.
 
 After your deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
 
-For example : `https://myOSACluster.eastus.cloudapp.azure`
+For example : `https://myOSACluster.eastus.cloudapp.azure.com`
 
 > You will have a `NET::ERR_CERT_AUTHORITY_INVALID` error from your browser, you will have to validate the connexion manually.
 
