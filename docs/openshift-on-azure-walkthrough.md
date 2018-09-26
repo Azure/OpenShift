@@ -100,8 +100,6 @@ Snippet Output :
 }
 ```
 
-Take a note of the `appId` from the output.
-
 ## Step 2: Create OpenShift cluster
 
 Use the `az openshift create` command to create an OpenShift cluster. 
