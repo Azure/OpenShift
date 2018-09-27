@@ -38,7 +38,36 @@ If you have access to multiple subscriptions, make sure to use the correct one b
 
 If not, you can run `az account set -s <SubId>` by remplacing <SubId> with the correct one.
 
-## Step 1: Create a resource group
+## Step 1: Register your subscription to the Managed OpenShift Preview
+
+To register your subscription please run the following commmand :
+
+```azurecli-interactive
+az feature register --namespace Microsoft.ContainerService -n openshiftmanagedcluster
+```
+
+Output :
+
+```json
+{
+  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Features/providers/Microsoft.ContainerService/features/openshiftmanagedcluster",
+  "name": "Microsoft.ContainerService/openshiftmanagedcluster",
+  "properties": {
+    "state": "Pending"
+  },
+  "type": "Microsoft.Features/providers/features"
+}
+```
+
+To verify the status of the registration :
+
+```azurecli-interactive
+az feature show --namespace Microsoft.ContainerService -n openshiftmanagedcluster
+```
+
+Make sure you can see the `"state": "Registered"` in the payload before executing the `openshift` commands.
+
+## Step 2: Create a resource group
 
 Create a resource group with the `az group create` command. An Azure resource group is a logical group in which Azure resources are deployed and managed. When you create a resource group, you are asked to specify a location. This location is where your resources run in Azure.
 
@@ -66,7 +95,7 @@ Output:
 }
 ```
 
-## Step 1: Create a Managed Application Credentials
+## Step 3: Create a Managed Application Credentials
 
 Use the `az ad app create` commnand to create a Managed Application credentials will allow the cluster to run the authentication against Azure AD. We will have to pass some settings such as :
 - The `display-name` to identify the application.
@@ -77,12 +106,10 @@ Use the `az ad app create` commnand to create a Managed Application credentials 
 The following example creates a managed application named `myOSACluster` with the password `myOSACluster` with the following reply url : `https://myOSACluster.eastus.cloudapp.azure.com/oauth2callback/Azure%20AD` and the same unique identifier.
 
 ```azurecli-interactive
-OSA_CLUSTER_NAME=myOSACluster
 OSA_AAD_SECRET=MyAw3s0meP@ssw0rd!
 OSA_AAD_REPLY_URL=https://$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com/oauth2callback/Azure%20AD
-OSA_AAD_IDENTIFIER=$OSA_AAD_REPLY_URL
 
-az ad app create --display-name $OSA_CLUSTER_NAME --key-type Password --password $OSA_AAD_SECRET --identifier-uris $OSA_AAD_IDENTIFIER --reply-urls $OSA_AAD_REPLY_URL
+az ad app create --display-name $OSA_CLUSTER_NAME --key-type Password --password $OSA_AAD_SECRET --identifier-uris $OSA_AAD_REPLY_URL --reply-urls $OSA_AAD_REPLY_URL
 ```
 
 Snippet Output :
@@ -100,7 +127,7 @@ Snippet Output :
 }
 ```
 
-## Step 2: Create OpenShift cluster
+## Step 4: Create OpenShift cluster
 
 Use the `az openshift create` command to create an OpenShift cluster. 
 The following example creates a cluster named *myOSACluster* with four nodes.
@@ -118,7 +145,7 @@ az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME 
 
 After several minutes, the command completes and returns JSON-formatted information about the cluster.
 
-## Step 3: Verify / Update Reply URLs in AAD app
+## Step 5: Verify / Update Reply URLs in AAD app
 
 If AAD app was created using Step 1 you can skip this step. If you have an existing Web app/API type AAD application you can update the reply URLs in AAD app with FQDN of your newly created OSA cluster. 
 
@@ -138,7 +165,7 @@ Change or add a value.
 
 > Reminder, this should be using this format : `https://<YOUR_FQDN>/oauth2callback/Azure%20AD`
 
-## Step 4: Connect to the cluster
+## Step 6: Connect to the cluster
 
 After your deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
 
@@ -152,7 +179,7 @@ Click on `Azure AD`
 
 ![](./medias/OSA_Console.png)
 
-## Step 5: Using OC CLI
+## Step 7: Using OC CLI
 Click on the upper right corner (profile name) to get the CLI login information. 
 
 ![](./medias/OSA_CLI.png)
