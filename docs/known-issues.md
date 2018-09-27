@@ -1,6 +1,6 @@
 # Known Issues
 
-This document outlines acknowledged issues with Managed OpenShift on Azure (OSA), including workarounds if known.
+This document outlines known issues with Managed OpenShift on Azure (OSA), including workarounds if known.
 
 ## Log Analytics
 
