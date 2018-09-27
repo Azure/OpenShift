@@ -16,4 +16,4 @@ OSA requires the new April 2018 pricing model (if you are not using the new mode
 
 - Make sure that `Use the April 2018 pricing model` is checked and saved.
 
-![Use April 2018 billing model](./medias/oms-billing-2.png)
+<img src="./medias/oms-billing-2.png" width="50%">
