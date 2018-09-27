@@ -20,7 +20,7 @@ To use it, you have to make sure Docker is installed on your machine.
 
 [More information on how to install Docker can be found here.](https://docs.docker.com/install/)
 
-> **Warning** : This CLI support is provided on a best-effort basis. Please open Issues on this repo if you have questions or concerns.
+> **Warning** : This CLI is not supported at this time. Please open Issues on this repo if you have questions or concerns.
 
 The build of this CLI is under the `julienstroheker/osa-cli` container.
 
