@@ -17,3 +17,27 @@ OSA requires the new April 2018 pricing model (if you are not using the new mode
 - Make sure that `Use the April 2018 pricing model` is checked and saved.
 
 <img src="./medias/oms-billing-2.png" width="50%">
+
+## Accept MarketPlace agreements
+
+Before deploying OSA, marketplace agreements for Azure Managed Applications and Red Hat images will need to be accepted at this time.
+
+- Use Cloud Shell (with PowerShell) inside the portal to accept these agreements.
+
+![Cloud Shell](./medias/marketplace-cloudshell.png)
+
+- Make sure to set subscription to the whitelisted subscription ID.
+
+```powershell
+Set-AzureRmContext -SubscriptionId "<SUBSCRIPTION_ID>"
+```
+
+- Accept Marketplace terms for Red Hat OpenShift image and Azure Managed Apps.
+
+```powershell
+Get-AzureRmMarketplaceTerms -Publisher redhat -Product osa -Name osa_310 | Set-AzureRmMarketplaceTerms -Accept
+
+Get-AzureRmMarketplaceTerms -Publisher osatesting -Product open-shift-azure-proxy-preview -Name byovnet | Set-AzureRmMarketplaceTerms -Accept
+
+Get-AzureRmMarketplaceTerms -Publisher osatesting -Product open-shift-azure-proxy-preview -Name default| Set-AzureRmMarketplaceTerms -Accept
+```
