@@ -132,9 +132,11 @@ Snippet Output :
 Use the `az openshift create` command to create an OpenShift cluster. 
 The following example creates a cluster named *myOSACluster* with four nodes.
 
+
+
 ```azurecli-interactive
 OSA_FQDN=$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com
-OSA_AAD_ID=$(az ad app show --id $OSA_AAD_IDENTIFIER --query appId -o tsv)
+OSA_AAD_ID=<appId value from the output above>
 OSA_AAD_TENANT=$(az account show --query tenantId | tr -d '"')
 
 az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --node-count 4 --fqdn $OSA_FQDN --aad-client-app-id $OSA_AAD_ID --aad-client-app-secret $OSA_AAD_SECRET --aad-tenant-id $OSA_AAD_TENANT
@@ -142,6 +144,8 @@ az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME 
 > `OSA_AAD_ID` is the `appId` value from the previous command in Step 2.
 
 > To get the tenant ID of your current subscription you can run the following command `az account list`
+
+> To successfully use AAD application to login into the cluster, you will need to configure API permissions. For more details check [AAD application configuration](#aad-application-configuration)
 
 After several minutes, the command completes and returns JSON-formatted information about the cluster.
 
@@ -193,6 +197,120 @@ Login using OC CLI by copying the command above:
 ```
 oc login <FQDN> --token=<YOUR_TOKEN>
 ```
+
+
+## AAD application configuration
+
+The deployed OpenShift cluster needs a valid AAD application and service principal to call back into the Azure API,
+in order to enable AAD authentication. There are a few options here:
+
+* Create application using Azure Portal and configure all values there.
+
+* Create application using CLI and later configure permission in the Azure portal.
+
+* Create application using CLI and approve permission in the Azure portal
+
+### Case 1: Create application using Azure portal
+
+Do a search for `App registrations` in the search section located at the tep and navigate to it.
+
+![](./medias/OSA_APP_Portal.png)
+
+Press `New application registration` button. Enter details for your application instance and press `Create`.
+
+![](./medias/OSA_AAD_Portal_Create.png)
+
+ Sign-on URL is OpenShift web console URL: `https://awesome-cluster.eastus.cloudapp.azure.com/oauth2callback/Azure%20AD`
+
+Copy value of the `Application ID` fields for `OSA_AAD_ID` from [step 4 above](#Step-4:-Create-OpenShift-cluster). 
+
+![](./medias/OSA_AAD_Portal_Details.png)
+
+`OSA_AAD_SECRET` Value should be set to `Key`, attached to the AAD application. Under same AAD application press `Keys` and create new key:
+
+![](./medias/OSA_AAD_Portal_key_create.png)
+
+Key value is used for `az openshift create` command `--aad-client-app-secret <aad key value>`
+
+Next you will need to grant set of API permissions for sign-on to work. Under same application press `Required permissions` and `Add`. Set these values:
+
+```
+Microsoft Graph:
+  Application permissions: Read all groups, Read directory data
+  Delegated permissions: Read all groups
+Windows Azure Active Directory:
+  Delegated permissions: Sign in and read user profile
+```
+
+For the permissions to take effect, Azure subscription administrator will need to press `Grant permissions` to approve permission request.
+
+### Case 2: Create application using CLI and later configure permission in the Azure portal
+
+To create application using azure CLI execute:
+
+
+```azurecli-interactive
+OSA_AAD_SECRET=MyAw3s0meP@ssw0rd!
+OSA_AAD_REPLY_URL=https://$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com/oauth2callback/Azure%20AD
+
+az ad app create --display-name $OSA_CLUSTER_NAME --key-type Password --password $OSA_AAD_SECRET --identifier-uris $OSA_AAD_REPLY_URL --reply-urls $OSA_AAD_REPLY_URL
+```
+
+You will be prompted with the output of the newly created application. After this you will need to configure API permissions for the created application. Follow case 1 from the place, where it speaks about granting set of API permissions for sing-on to work.
+
+### Case 3: Create application using CLI and approve permission in the Azure portal
+
+You can create AAD application with all required permissions already configured using this CLI code:
+
+```azurecli-interactive
+OSA_AAD_SECRET=MyAw3s0meP@ssw0rd!
+OSA_AAD_REPLY_URL=https://$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com/oauth2callback/Azure%20AD
+OSA_AAD_ID=$(az ad app create \
+        --display-name "$OSA_CLUSTER_NAME" \
+        --homepage "$OSA_AAD_REPLY_URL" \
+        --identifier-uris "$OSA_AAD_REPLY_URL" \
+        --key-type password \
+        --password "$OSA_AAD_SECRET" \
+        --query appId \
+        --reply-urls "$OSA_AAD_REPLY_URL" \
+        --required-resource-accesses @- <<'EOF' | tr -d '"'
+[
+    {
+      "resourceAppId": "00000003-0000-0000-c000-000000000000",
+      "resourceAccess": [
+        {
+          "id": "7ab1d382-f21e-4acd-a863-ba3e13f7da61",
+          "type": "Role"
+        },
+        {
+          "id": "5f8c59db-677d-491f-a6b8-5f174b11ec1d",
+          "type": "Scope"
+        },
+        {
+          "id": "5b567255-7703-4780-807c-7be8301ae99b",
+          "type": "Role"
+        },
+        {
+          "id": "37f7f235-527c-4136-accd-4a02d197296e",
+          "type": "Scope"
+        }
+      ]
+    },
+    {
+      "resourceAppId": "00000002-0000-0000-c000-000000000000",
+      "resourceAccess": [
+        {
+          "id": "311a71cc-e848-46a1-bdf8-97ff7156d8e6",
+          "type": "Scope"
+        }
+      ]
+    }
+]
+EOF
+)
+```
+
+Now Azure Subscription administrator will need to grant application permissions in Azure portal as described in case 1. 
 
 
 <!-- LINKS - external -->
