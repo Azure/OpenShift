@@ -127,7 +127,7 @@ Snippet Output :
 }
 ```
 
-## Step 4: Create OpenShift cluster
+## Step 4: Create an OpenShift cluster
 
 Use the `az openshift create` command to create an OpenShift cluster. 
 The following example creates a cluster named *myOSACluster* with four nodes.
@@ -139,11 +139,35 @@ OSA_AAD_TENANT=$(az account show --query tenantId | tr -d '"')
 
 az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --node-count 4 --fqdn $OSA_FQDN --aad-client-app-id $OSA_AAD_ID --aad-client-app-secret $OSA_AAD_SECRET --aad-tenant-id $OSA_AAD_TENANT
 ```
-> `OSA_AAD_ID` is the `appId` value from the previous command in Step 2.
+
+> `OSA_AAD_ID` is the `appId` value from the previous command in Step 3.
 
 > To get the tenant ID of your current subscription you can run the following command `az account list`
 
-After several minutes, the command completes and returns JSON-formatted information about the cluster.
+After several minutes, the command completes and returns a JSON-formatted information about the cluster.
+
+### Option: Cluster with a custom Vnet integration
+
+The first step is to obtain the identifier of the Vnet you wants to peer with.
+
+For example, if your VNet name is `my-custom-vnet` inside the `my-custom-vnet-rg` resource group, you will have to run the following commands :
+
+```
+PEER_VNET_NAME=my-custom-vnet
+PEER_VNET_RG=my-custom-vnet-rg
+PEER_VNET_ID=$(az network vnet show -n $PEER_VNET_NAME -g $PEER_VNET_RG --query id -o tsv)
+```
+
+Use the `az openshift create` command to create an OpenShift cluster. 
+The following example creates a cluster named *myOSACluster* with four nodes and peer it to a custom VNet.
+
+```azurecli-interactive
+OSA_FQDN=$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com
+OSA_AAD_ID=$(az ad app show --id $OSA_AAD_IDENTIFIER --query appId -o tsv)
+OSA_AAD_TENANT=$(az account show --query tenantId -o tsv)
+
+az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --node-count 4 --fqdn $OSA_FQDN --aad-client-app-id $OSA_AAD_ID --aad-client-app-secret $OSA_AAD_SECRET --aad-tenant-id $OSA_AAD_TENANT --vnet-peer-id $PEER_VNET_ID
+```
 
 ## Step 5: Verify / Update Reply URLs in AAD app
 
