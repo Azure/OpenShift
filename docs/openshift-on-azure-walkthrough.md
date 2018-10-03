@@ -18,6 +18,8 @@ OpenShift on Azure is in private preview. For this reason we are using a custom 
 
 To use it, you have to make sure Docker is installed on your machine.
 
+OpenShift cluster requires delicate AAD application configuration. Quickstart steps covers them in a high level. Please check with [AAD application configuration](#aad-application-configuration) section for more details.
+
 [More information on how to install Docker can be found here.](https://docs.docker.com/install/)
 
 > **Warning** : This CLI is not supported at this time. Please open Issues on this repo if you have questions or concerns.
@@ -210,9 +212,9 @@ in order to enable AAD authentication. There are a few options here:
 
 * Create application using CLI and approve permission in the Azure portal
 
-### Case 1: Create application using Azure portal
+### Option 1: Create application using Azure portal
 
-Do a search for `App registrations` in the search section located at the tep and navigate to it.
+Do a search for `App registrations` in the search section located at the top and navigate to it or go to AAD -> app registrations
 
 ![](./medias/OSA_APP_Portal.png)
 
@@ -230,21 +232,23 @@ Copy value of the `Application ID` fields for `OSA_AAD_ID` from [step 4 above](#
 
 ![](./medias/OSA_AAD_Portal_key_create.png)
 
+> Once this key is created and the page is left the value will be hidden. Make sure to store is somewhere safe.
+
 Key value is used for `az openshift create` command `--aad-client-app-secret <aad key value>`
 
 Next you will need to grant set of API permissions for sign-on to work. Under same application press `Required permissions` and `Add`. Set these values:
 
 ```
 Microsoft Graph:
-  Application permissions: Read all groups, Read directory data
-  Delegated permissions: Read all groups
+  Application permissions: "Read all groups", "Read directory data"
+  Delegated permissions: "Read all groups", "Sign users in"
 Windows Azure Active Directory:
-  Delegated permissions: Sign in and read user profile
+  Delegated permissions: "Sign in and read user profile"
 ```
 
 For the permissions to take effect, Azure subscription administrator will need to press `Grant permissions` to approve permission request.
 
-### Case 2: Create application using CLI and later configure permission in the Azure portal
+### Option 2: Create application using CLI and later configure permission in the Azure portal
 
 To create application using azure CLI execute:
 
@@ -256,9 +260,9 @@ OSA_AAD_REPLY_URL=https://$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com/oauth2c
 az ad app create --display-name $OSA_CLUSTER_NAME --key-type Password --password $OSA_AAD_SECRET --identifier-uris $OSA_AAD_REPLY_URL --reply-urls $OSA_AAD_REPLY_URL
 ```
 
-You will be prompted with the output of the newly created application. After this you will need to configure API permissions for the created application. Follow case 1 from the place, where it speaks about granting set of API permissions for sing-on to work.
+You will be prompted with the output of the newly created application. After this you will need to configure API permissions for the created application. Follow option 1 from the place, where it speaks about granting set of API permissions for sign-on to work.
 
-### Case 3: Create application using CLI and approve permission in the Azure portal
+### Option 3: Create application using CLI and approve permission in the Azure portal
 
 You can create AAD application with all required permissions already configured using this CLI code:
 
@@ -310,7 +314,7 @@ EOF
 )
 ```
 
-Now Azure Subscription administrator will need to grant application permissions in Azure portal as described in case 1. 
+Now Azure Subscription administrator will need to grant application permissions in Azure portal as described in option 1. 
 
 
 <!-- LINKS - external -->
