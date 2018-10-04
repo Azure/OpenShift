@@ -75,7 +75,8 @@ issue](known-issues.md#cannot-create-cluster-with-fqdns-containing-capital-lette
 that FQDNs must not contain capital letters.
 
 This walkthrough will create a Managed OpenShift on Azure cluster in a new
-resource group with the same name as the cluster.
+resource group with the same name as the cluster, with the default of 4
+Standard_D4s_v3 compute nodes.
 
 This walkthrough follows the `az openshift create` default behaviour of
 automatically creating an Azure AD Application for you.  For more details, see
@@ -127,3 +128,14 @@ The same page also has a command of the form `oc login
 https://myuniqueclustername.eastus.cloudapp.azure.com --token=<hidden>`.  Click
 the copy to clipboard button to copy this command.  Paste it in your terminal to
 log in to the cluster using the oc CLI.
+
+## Step 6: Scale up to 5 compute nodes
+
+From the preview Azure CLI image bash prompt, run:
+
+```bash
+az openshift scale --resource-group $CLUSTER_NAME --name $CLUSTER_NAME --compute-count 5
+```
+
+All being well, after a few minutes `az openshift create` will complete
+successfully and return a JSON document containing your cluster details.
