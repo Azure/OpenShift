@@ -89,9 +89,8 @@ error similar to `The access token for this request was issued by the tenant
 can manage this subscription '...'. The access token must be issued from proper
 tenant`.
 
-If this error occurs, it is due to an ARM cache invalidation issue.  Delete the
-cluster, wait for 15 minutes for the cache to time out, and try to create the
-cluster again.
+If this error occurs, it is expected to be a known one-off error.  Delete the
+cluster, wait for 15 minutes, and create the cluster again.
 
 ## Log Analytics must use April 2018 pricing model
 

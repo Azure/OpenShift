@@ -78,12 +78,12 @@ This walkthrough will create a Managed OpenShift on Azure cluster in a new
 resource group with the same name as the cluster, with the default of 4
 Standard_D4s_v3 compute nodes.
 
-This walkthrough follows the `az openshift create` default behaviour of
-automatically creating an Azure AD Application for you.  For more details, see
-[AAD Application Configuration](aad-application-configuration.md).
+It follows the `az openshift create` default behaviour of automatically creating
+an Azure AD Application for you.  For more details, see [AAD Application
+Configuration](aad-application-configuration.md).
 
-This walkthrough does not enable vnet peering on the cluster's vnet.  For
-details on how to do that, see [Vnet Peering](vnet-peering.md).
+It does not enable VNET peering on the cluster's VNET.  For details on how to do
+that, see [VNET Peering](vnet-peering.md).
 
 From the preview Azure CLI image bash prompt, run:
 
