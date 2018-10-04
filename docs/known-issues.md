@@ -29,11 +29,12 @@ Get-AzureRmMarketplaceTerms -Publisher osatesting -Product open-shift-azure-prox
 Get-AzureRmMarketplaceTerms -Publisher osatesting -Product open-shift-azure-proxy-preview -Name default | Set-AzureRmMarketplaceTerms -Accept
 ```
 
-## Microsoft.ContainerService and Microsoft.Solutions provider must be registered manually
+## Providers and features must be registered manually
 
-Currently, the `Microsoft.ContainerService` `openshiftmanagedcluster` feature
-and `Microsoft.Solutions` provider must be registered to your subscription
-manually before deploying your first OSA cluster.
+Currently, the `Microsoft.ContainerService` `openshiftmanagedcluster` feature,
+`Microsoft.OperationalInsights` provider and `Microsoft.Solutions` provider must
+be registered to your subscription manually before deploying your first OSA
+cluster.
 
 - Run a Cloud Shell (PowerShell) session from the Azure portal.
 
@@ -54,6 +55,18 @@ Register-AzProviderFeature -ProviderNamespace Microsoft.ContainerService -Featur
 
 ```powershell
 Get-AzureRmProviderFeature -ProviderNamespace Microsoft.ContainerService -FeatureName openshiftmanagedcluster | select RegistrationState
+```
+
+- Register the Microsoft.OperationalInsights provider.
+
+```powershell
+Register-AzureRmResourceProvider -ProviderNamespace Microsoft.OperationalInsights
+```
+
+- Wait until the provider is showing RegistrationState `Registered`.
+
+```powershell
+Get-AzureRmResourceProvider -ProviderNamespace Microsoft.OperationalInsights | select RegistrationState
 ```
 
 - Register the Microsoft.Solutions provider.

@@ -27,11 +27,11 @@ cluster for the first time in an Azure subscription.
   instructions in [known
   issues](known-issues.md#marketplace-agreements-must-be-accepted-manually).
 
-- Currently, the `Microsoft.ContainerService openshiftmanagedcluster` feature
-  and `Microsoft.Solutions` provider must be registered to your subscription
-  manually before deploying your first OSA cluster.  Follow the instructions in
-  [known
-  issues](known-issues.md#microsoftcontainerservice-and-microsoftsolutions-provider-must-be-registered-manually).
+- Currently, the `Microsoft.ContainerService` `openshiftmanagedcluster` feature,
+  `Microsoft.OperationalInsights` provider and `Microsoft.Solutions` provider
+  must be registered to your subscription manually before deploying your first
+  OSA cluster.  Follow the instructions in [known
+  issues](known-issues.md#providers-and-features-must-be-registered-manually).
 
 - Docker is required to run the preview Azure CLI.  More information on how to
   install Docker can be found [here](https://docs.docker.com/install/).
