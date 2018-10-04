@@ -95,77 +95,24 @@ Output:
 }
 ```
 
-## Step 3: Create a Managed Application Credentials
-
-Use the `az ad app create` commnand to create a Managed Application credentials will allow the cluster to run the authentication against Azure AD. We will have to pass some settings such as :
-- The `display-name` to identify the application.
-- The `password` this could be set directly from the `create` command.
-- A unique `--identifier-uris` **this have to be unique**.
-- A unique `--reply-urls` this have to match the `fqdn` of your cluster. The format have to be : `https://<ClusterName>.<Location>.cloudapp.azure.com/oauth2callback/Azure%20AD`
-
-The following example creates a managed application named `myOSACluster` with the password `myOSACluster` with the following reply url : `https://myOSACluster.eastus.cloudapp.azure.com/oauth2callback/Azure%20AD` and the same unique identifier.
-
-```azurecli-interactive
-OSA_AAD_SECRET=MyAw3s0meP@ssw0rd!
-OSA_AAD_REPLY_URL=https://$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com/oauth2callback/Azure%20AD
-
-az ad app create --display-name $OSA_CLUSTER_NAME --key-type Password --password $OSA_AAD_SECRET --identifier-uris $OSA_AAD_REPLY_URL --reply-urls $OSA_AAD_REPLY_URL
-```
-
-Snippet Output :
-
-```json
-{
-  "acceptMappedClaims": null,
-  "addIns": [],
-  "appId": "57b4f673-af45-1223-1234-efb12fc0cd16",
-  ...
-  "identifierUris": [
-    "https://microsoft.onmicrosoft.com/juosaclitest2"
-  ],
-  ...
-}
-```
-
-## Step 4: Create OpenShift cluster
+## Step 3: Create OpenShift cluster
 
 Use the `az openshift create` command to create an OpenShift cluster. 
 The following example creates a cluster named *myOSACluster* with four nodes.
 
 ```azurecli-interactive
 OSA_FQDN=$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com
-OSA_AAD_ID=$(az ad app show --id $OSA_AAD_IDENTIFIER --query appId -o tsv)
-OSA_AAD_TENANT=$(az account show --query tenantId | tr -d '"')
 
-az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --node-count 4 --fqdn $OSA_FQDN --aad-client-app-id $OSA_AAD_ID --aad-client-app-secret $OSA_AAD_SECRET --aad-tenant-id $OSA_AAD_TENANT
+az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --node-count 4 --fqdn $OSA_FQDN
 ```
-> `OSA_AAD_ID` is the `appId` value from the previous command in Step 2.
 
 > To get the tenant ID of your current subscription you can run the following command `az account list`
 
+> To login to the OpenShift cluster we use AAD application. Application will be pre-created for you using `az openshift create` command. You can specify your own AAD application to be used. More details check [AAD application configuration](aad-application-configuration.md) document.
+
 After several minutes, the command completes and returns JSON-formatted information about the cluster.
 
-## Step 5: Verify / Update Reply URLs in AAD app
-
-If AAD app was created using Step 1 you can skip this step. If you have an existing Web app/API type AAD application you can update the reply URLs in AAD app with FQDN of your newly created OSA cluster. 
-
-Do a search for `App registrations` in the search section located at the tep and navigate to it.
-
-![](./medias/OSA_APP_Portal.png)
-
-Search for your `AAD name` with the `All apps` filter on, and click on it to get more informations.
-
-![](./medias/OSA_APP_Infos.png)
-
-Click on `Settings` and go in the `Reply URLs` section. 
-
-Change or add a value. 
-
-![](./medias/OSA_ReplyURL.png)
-
-> Reminder, this should be using this format : `https://<YOUR_FQDN>/oauth2callback/Azure%20AD`
-
-## Step 6: Connect to the cluster
+## Step 4: Connect to the cluster
 
 After your deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
 
@@ -179,7 +126,7 @@ Click on `Azure AD`
 
 ![](./medias/OSA_Console.png)
 
-## Step 7: Using OC CLI
+## Step 5: Using OC CLI
 Click on the upper right corner (profile name) to get the CLI login information. 
 
 ![](./medias/OSA_CLI.png)
@@ -193,7 +140,6 @@ Login using OC CLI by copying the command above:
 ```
 oc login <FQDN> --token=<YOUR_TOKEN>
 ```
-
 
 <!-- LINKS - external -->
 [OpenShift CLI]: https://github.com/openshift/origin/releases
