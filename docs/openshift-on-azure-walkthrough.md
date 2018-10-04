@@ -69,7 +69,10 @@ SUBSCRIPTION_ID` to default to the correct subscription.
 Choose a name and Azure location for your Managed OpenShift on Azure cluster.
 The fully qualified domain name (FQDN) of your cluster will be
 `$CLUSTER_NAME.$LOCATION.cloudapp.azure.com`.  This FQDN must not already be
-taken by any Azure virtual machine, otherwise cluster creation will fail.
+taken by any Azure virtual machine, otherwise cluster creation will fail.  Note
+that there is a [known
+issue](known-issues.md#cannot-create-cluster-with-fqdns-containing-capital-letters)
+that FQDNs must not contain capital letters.
 
 This walkthrough will create a Managed OpenShift on Azure cluster in a new
 resource group with the same name as the cluster.
