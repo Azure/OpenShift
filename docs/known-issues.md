@@ -68,6 +68,18 @@ Register-AzureRmResourceProvider -ProviderNamespace Microsoft.Solutions
 Get-AzureRmResourceProvider -ProviderNamespace Microsoft.Solutions | select RegistrationState
 ```
 
+## First OSA cluster creation in a subscription may fail due to access token error
+
+Currently, the first OSA cluster creation in a subscription may fail with an
+error similar to `The access token for this request was issued by the tenant
+'...' which is neither the owner tenant '...' nor one of the tenants '...' which
+can manage this subscription '...'. The access token must be issued from proper
+tenant`.
+
+If this error occurs, it is due to an ARM cache invalidation issue.  Delete the
+cluster, wait for 15 minutes for the cache to time out, and try to create the
+cluster again.
+
 ## Log Analytics must use April 2018 pricing model
 
 Currently, OSA can only be deployed in subscriptions which use the April 2018
