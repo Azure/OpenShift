@@ -38,7 +38,7 @@ If you have access to multiple subscriptions, make sure to use the correct one b
 
 If not, you can run `az account set -s <SubId>` by remplacing <SubId> with the correct one.
 
-## Step 1: Register your subscription to the Managed OpenShift Preview
+## Step 1: Register your subscription for Managed OpenShift on Azure private preview
 
 To register your subscription please run the following commmand :
 
@@ -66,6 +66,12 @@ az feature show --namespace Microsoft.ContainerService -n openshiftmanagedcluste
 ```
 
 Make sure you can see the `"state": "Registered"` in the payload before executing the `openshift` commands.
+
+Do the same operation with this command :
+
+```azurecli-interactive
+az provider register --n Microsoft.Solutions
+```
 
 ## Step 2: Create a resource group
 
