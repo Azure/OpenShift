@@ -95,62 +95,26 @@ Output:
 }
 ```
 
-## Step 3: Create a Managed Application Credentials
-
-Use the `az ad app create` commnand to create a Managed Application credentials will allow the cluster to run the authentication against Azure AD. We will have to pass some settings such as :
-- The `display-name` to identify the application.
-- The `password` this could be set directly from the `create` command.
-- A unique `--identifier-uris` **this have to be unique**.
-- A unique `--reply-urls` this have to match the `fqdn` of your cluster. The format have to be : `https://<ClusterName>.<Location>.cloudapp.azure.com/oauth2callback/Azure%20AD`
-
-The following example creates a managed application named `myOSACluster` with the password `myOSACluster` with the following reply url : `https://myOSACluster.eastus.cloudapp.azure.com/oauth2callback/Azure%20AD` and the same unique identifier.
-
-```azurecli-interactive
-OSA_AAD_SECRET=MyAw3s0meP@ssw0rd!
-OSA_AAD_REPLY_URL=https://$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com/oauth2callback/Azure%20AD
-
-az ad app create --display-name $OSA_CLUSTER_NAME --key-type Password --password $OSA_AAD_SECRET --identifier-uris $OSA_AAD_REPLY_URL --reply-urls $OSA_AAD_REPLY_URL
-```
-
-Snippet Output :
-
-```json
-{
-  "acceptMappedClaims": null,
-  "addIns": [],
-  "appId": "57b4f673-af45-1223-1234-efb12fc0cd16",
-  ...
-  "identifierUris": [
-    "https://microsoft.onmicrosoft.com/juosaclitest2"
-  ],
-  ...
-}
-```
-
-## Step 4: Create an OpenShift cluster
+## Step 3: Create an OpenShift cluster (in a default VNET)
 
 Use the `az openshift create` command to create an OpenShift cluster. 
 The following example creates a cluster named *myOSACluster* with four nodes.
 
 ```azurecli-interactive
 OSA_FQDN=$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com
-OSA_AAD_ID=$(az ad app show --id $OSA_AAD_IDENTIFIER --query appId -o tsv)
-OSA_AAD_TENANT=$(az account show --query tenantId | tr -d '"')
 
-az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --node-count 4 --fqdn $OSA_FQDN --aad-client-app-id $OSA_AAD_ID --aad-client-app-secret $OSA_AAD_SECRET --aad-tenant-id $OSA_AAD_TENANT
+az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --fqdn $OSA_FQDN
 ```
-
-> `OSA_AAD_ID` is the `appId` value from the previous command in Step 3.
-
-> To get the tenant ID of your current subscription you can run the following command `az account list`
 
 After several minutes, the command completes and returns a JSON-formatted information about the cluster.
 
-### Option: Cluster with a custom Vnet integration
+> Note : If not specified, this command will automatically create an AAD Application for you to allow the cluster to run the authentication against Azure AD. If you want more details on how manage yourself this part, you can read more about in [this separated documentation.](./aad-application-configuration.md)
 
-The first step is to obtain the identifier of the Vnet you wants to peer with.
+### Option: Create an OpenShift cluster in a custom VNET
 
-For example, if your VNet name is `my-custom-vnet` inside the `my-custom-vnet-rg` resource group, you will have to run the following commands :
+The first step is to obtain the identifier of the VNET you wants to peer with.
+
+For example, if your VNET name is `my-custom-vnet` inside the `my-custom-vnet-rg` resource group, you will have to run the following commands :
 
 ```
 PEER_VNET_NAME=my-custom-vnet
@@ -158,38 +122,16 @@ PEER_VNET_RG=my-custom-vnet-rg
 PEER_VNET_ID=$(az network vnet show -n $PEER_VNET_NAME -g $PEER_VNET_RG --query id -o tsv)
 ```
 
-Use the `az openshift create` command to create an OpenShift cluster. 
+Use the `az openshift create` command to create an OpenShift on Azure cluster. 
 The following example creates a cluster named *myOSACluster* with four nodes and peer it to a custom VNet.
 
 ```azurecli-interactive
 OSA_FQDN=$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com
-OSA_AAD_ID=$(az ad app show --id $OSA_AAD_IDENTIFIER --query appId -o tsv)
-OSA_AAD_TENANT=$(az account show --query tenantId -o tsv)
 
-az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --node-count 4 --fqdn $OSA_FQDN --aad-client-app-id $OSA_AAD_ID --aad-client-app-secret $OSA_AAD_SECRET --aad-tenant-id $OSA_AAD_TENANT --vnet-peer-id $PEER_VNET_ID
+az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --fqdn $OSA_FQDN --vnet-peer-id $PEER_VNET_ID
 ```
 
-## Step 5: Verify / Update Reply URLs in AAD app
-
-If AAD app was created using Step 1 you can skip this step. If you have an existing Web app/API type AAD application you can update the reply URLs in AAD app with FQDN of your newly created OSA cluster. 
-
-Do a search for `App registrations` in the search section located at the tep and navigate to it.
-
-![](./medias/OSA_APP_Portal.png)
-
-Search for your `AAD name` with the `All apps` filter on, and click on it to get more informations.
-
-![](./medias/OSA_APP_Infos.png)
-
-Click on `Settings` and go in the `Reply URLs` section. 
-
-Change or add a value. 
-
-![](./medias/OSA_ReplyURL.png)
-
-> Reminder, this should be using this format : `https://<YOUR_FQDN>/oauth2callback/Azure%20AD`
-
-## Step 6: Connect to the cluster
+## Step 4: Connect to the cluster
 
 After your deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
 
@@ -203,7 +145,7 @@ Click on `Azure AD`
 
 ![](./medias/OSA_Console.png)
 
-## Step 7: Using OC CLI
+## Step 5: Using OC CLI
 Click on the upper right corner (profile name) to get the CLI login information. 
 
 ![](./medias/OSA_CLI.png)
