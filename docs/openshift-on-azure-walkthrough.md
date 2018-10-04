@@ -34,7 +34,9 @@ From this bash your should be able to run any `az` commands and the `az openshif
 
 The first step will be to authenticate yourself by running the `az login` command. This command will start the authentication flow using you browser. 
 
-If you have access to multiple subscriptions, make sure to use the correct one by running the command `az account list -o table`. Then just validate if the field `isDefault` is equal `True` at the same line of your subscription. 
+**If you have access to multiple subscriptions, make sure to use the one whitelisted for the private preview by running the command `az account list -o table`.**
+
+Then just validate if the field `isDefault` is equal `True` at the same line of your subscription. 
 
 If not, you can run `az account set -s <SubId>` by remplacing <SubId> with the correct one.
 
@@ -67,20 +69,32 @@ az feature show --namespace Microsoft.ContainerService -n openshiftmanagedcluste
 
 Make sure you can see the `"state": "Registered"` in the payload before executing the `openshift` commands.
 
-Do the same operation with this command :
+Do the same operation with these commands :
 
 ```azurecli-interactive
-az provider register --n Microsoft.Solutions
+az provider register -n Microsoft.Solutions
+az provider register -n Microsoft.OperationalInsights
 ```
+
+Like the previous one, those commands are async, and need to be completed once before delploying a cluster.
+
+Verify the state by running these commands :
+
+```azurecli-interactive
+az provider show -n Microsoft.Solutions --query registrationState
+az provider show -n Microsoft.OperationalInsights --query registrationState
+```
+
+The output should be `"Registered"` for both of them.
 
 ## Step 2: Create a resource group
 
 Create a resource group with the `az group create` command. An Azure resource group is a logical group in which Azure resources are deployed and managed. When you create a resource group, you are asked to specify a location. This location is where your resources run in Azure.
 
-The following example creates a resource group named *myOSACluster* in the *eastus* location.
+The following example creates a resource group named *myosacluster* in the *eastus* location.
 
 ```azurecli-interactive
-OSA_CLUSTER_NAME=myOSACluster
+OSA_CLUSTER_NAME=myosacluster
 LOCATION=eastus
 
 az group create --name $OSA_CLUSTER_NAME --location $LOCATION
@@ -90,10 +104,10 @@ Output:
 
 ```json
 {
-  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myOSACluster",
+  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myosacluster",
   "location": "eastus",
   "managedBy": null,
-  "name": "myOSACluster",
+  "name": "myosacluster",
   "properties": {
     "provisioningState": "Succeeded"
   },
@@ -104,13 +118,15 @@ Output:
 ## Step 3: Create an OpenShift cluster (in a default VNET)
 
 Use the `az openshift create` command to create an OpenShift cluster. 
-The following example creates a cluster named *myOSACluster* with four nodes.
+The following example creates a cluster named *myosacluster* with four nodes.
 
 ```azurecli-interactive
 OSA_FQDN=$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com
 
 az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --fqdn $OSA_FQDN
 ```
+
+> **Make sure your FQDN is conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$**
 
 After several minutes, the command completes and returns a JSON-formatted information about the cluster.
 
@@ -129,7 +145,7 @@ PEER_VNET_ID=$(az network vnet show -n $PEER_VNET_NAME -g $PEER_VNET_RG --query 
 ```
 
 Use the `az openshift create` command to create an OpenShift on Azure cluster. 
-The following example creates a cluster named *myOSACluster* with four nodes and peer it to a custom VNet.
+The following example creates a cluster named *myosacluster* with four nodes and peer it to a custom VNet.
 
 ```azurecli-interactive
 OSA_FQDN=$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com
@@ -141,9 +157,9 @@ az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME 
 
 After your deployment is done, you should be able to open your browser to the `fqdn` that you choose during the creation of your cluster.
 
-For example : `https://myOSACluster.eastus.cloudapp.azure.com`
+For example : `https://myosacluster.eastus.cloudapp.azure.com`
 
-> You will have a `NET::ERR_CERT_AUTHORITY_INVALID` error from your browser, you will have to validate the connexion manually.
+> You will have a `NET::ERR_CERT_AUTHORITY_INVALID` error from your browser, you will have to validate the connection manually.
 
 Click on `Azure AD`
 
@@ -152,20 +168,19 @@ Click on `Azure AD`
 ![](./medias/OSA_Console.png)
 
 ## Step 5: Using OC CLI
-Click on the upper right corner (profile name) to get the CLI login information. 
-
-![](./medias/OSA_CLI.png)
 
 You need the OC CLI which can be downloaded from https://github.com/openshift/origin/releases
 
 > Using MacOS, you can easly install it with homebrew `brew install openshift-cli
 `
- 
-Login using OC CLI by copying the command above:
-```
-oc login <FQDN> --token=<YOUR_TOKEN>
-```
 
+Click on the upper right corner (profile name) to get the CLI login information. 
+
+![](./medias/OSA_CLI.png)
+
+This will copy in your clipboard the `oc login` command using your *fqdn* and *token*
+
+You just have to paste it inside you terminal.
 
 <!-- LINKS - external -->
 [OpenShift CLI]: https://github.com/openshift/origin/releases
