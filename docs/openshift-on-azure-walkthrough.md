@@ -51,7 +51,7 @@ docker run --rm -it julienstroheker/osa-cli
 az openshift --help
 ```
 
-![](./medias/OSA_AZ_CLI.png)
+![](./media/OSA_AZ_CLI.png)
 
 ## Step 2: Log in to Azure
 
@@ -108,11 +108,11 @@ certificate in your browser.
 
 To log in to the cluster, click on `Azure AD`.
 
-![](./medias/OSA_Auth.png)
+![](./media/OSA_Auth.png)
 
 You should now be logged into the cluster console.
 
-![](./medias/OSA_Console.png)
+![](./media/OSA_Console.png)
 
 ## Step 5: Use the oc CLI
 

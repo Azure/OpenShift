@@ -10,7 +10,7 @@ must be accepted manually before deploying your first OSA cluster.
 
 - Run a Cloud Shell (PowerShell) session from the Azure portal.
 
-![Cloud Shell](./medias/marketplace-cloudshell.png)
+![Cloud Shell](./media/marketplace-cloudshell.png)
 
 - If you have access to multiple subscriptions, specify the relevant
   subscription ID.
@@ -92,12 +92,12 @@ model.
 
 - Select your subscription and then click on `Pricing model selection`.
 
-![Select subscription](./medias/oms-billing-1.png)
+![Select subscription](./media/oms-billing-1.png)
 
 - If available and unchecked, check `Use the April 2018 pricing model` and click
   `Save`.
 
-<img src="./medias/oms-billing-2.png" width="50%">
+<img src="./media/oms-billing-2.png" width="50%">
 
 ## May not be possible to retry creation of a failed cluster
 
