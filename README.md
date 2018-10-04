@@ -6,6 +6,11 @@ This repo is intended for tracking issues with Managed OpenShift on Azure (OSA).
 
 - Updates about the service, including new features and new Azure regions: [OpenShift feed in Azure Updates](https://azure.microsoft.com/updates/?product=kubernetes-service)
 
+## Contents
+
+- [Quickstart: Deploy a Managed OpenShift cluster](/docs/openshift-on-azure-walkthrough.md)
+- [Known Issues](/docs/known-issues.md)
+
 ## Code of conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
