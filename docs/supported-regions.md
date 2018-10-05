@@ -6,5 +6,5 @@
 |🇨🇦 Canada Central|`canadacentral`|
 |🇨🇦 Canada East|`canadaeast`|
 |🇺🇸 East US|`eastus`|
-|🇺🇸 West US|`westcentralus`|
+|🇺🇸 West US|`westus`|
 |🇪🇺 West Europe|`westeurope`|
