@@ -68,21 +68,21 @@ az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME 
 
 ## Verify / Update Reply URLs in AAD app using the portal.
 
-If you already have an existing AAD application you can update the reply URLs in AAD app with FQDN of your newly created OSA cluster. 
+If you already have an existing AAD application you can update the reply URLs in AAD app with FQDN of your newly created OSA cluster.
 
 Do a search for `App registrations` in the search section located at the tep and navigate to it.
 
-![](./medias/OSA_APP_Portal.png)
+![](./media/OSA_APP_Portal.png)
 
 Search for your `AAD name` with the `All apps` filter on, and click on it to get more informations.
 
-![](./medias/OSA_APP_Infos.png)
+![](./media/OSA_APP_Infos.png)
 
-Click on `Settings` and go in the `Reply URLs` section. 
+Click on `Settings` and go in the `Reply URLs` section.
 
-Change or add a value. 
+Change or add a value.
 
-![](./medias/OSA_ReplyURL.png)
+![](./media/OSA_ReplyURL.png)
 
 > Reminder, this should be using this format : `https://<YOUR_FQDN>/oauth2callback/Azure%20AD`
 

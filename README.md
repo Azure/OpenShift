@@ -8,7 +8,7 @@ This repo is intended for tracking issues with Managed OpenShift on Azure (OSA).
 
 ## Contents
 
-- [Quickstart: Deploy a Managed OpenShift cluster](/docs/openshift-on-azure-walkthrough.md)
+- [Quickstart: Deploying a Managed OpenShift on Azure cluster](/docs/openshift-on-azure-walkthrough.md)
 - [Known Issues](/docs/known-issues.md)
 
 ## Code of conduct
