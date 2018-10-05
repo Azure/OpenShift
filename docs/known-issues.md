@@ -130,6 +130,8 @@ Currently, the `Microsoft.ContainerService/openShiftManagedClusters` resource
 created by the `az` CLI is hidden in the Azure portal.  In the relevant
 `Resource group` view, check `Show hidden types` to view the resource.
 
+![Hidden Type](./media/OSA_Portal_HiddenType.png)
+
 ## Only available cluster update is scale up / scale down
 
 Currently, no modifications are permitted to the
@@ -147,3 +149,8 @@ and Standard_D4s_v3 VM sizes.
 Currently, the Azure API accepts cluster creation requests with FQDNs containing
 capital letters, but the creation later fails.  Do not include capital letters
 in FQDNs.
+
+## OMS Workspace region restrictions
+
+OMS workspace creation is not available in all regions due to capacity constraint and this might further be limited on a per subscription basis. 
+As a result of that, OpenShift on Azure will be using one region per sovereignty to maximize chances of successful cluster creation.
