@@ -153,6 +153,4 @@ in FQDNs.
 ## OMS Workspace region restrictions
 
 OMS workspace creation is not available in all regions due to capacity constraint and this might further be limited on a per subscription basis. 
-As a result of that, OpenShift on Azure will be using one region per sovereignty to maximize changes to success cluster create.
-
-However, creation might still fail.
+As a result of that, OpenShift on Azure will be using one region per sovereignty to maximize chances of successful cluster creation.
