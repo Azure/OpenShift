@@ -39,15 +39,15 @@ cluster for the first time in an Azure subscription.
 ## Step 1: Install the preview Azure CLI
 
 Currently, OpenShift on Azure requires use of a preview build of the Azure CLI
-published in a container image at `julienstroheker/osa-cli`.  It is recommended
-to run `docker pull julienstroheker/osa-cli` regularly to get CLI updates.
+published in a container image at `mcr.microsoft.com/osa/cli`.  It is recommended
+to run `docker pull mcr.microsoft.com/osa/cli` regularly to get CLI updates.
 
 Pull the preview Azure CLI image and run it to get to a bash prompt where the
 `az openshift` commands are available.
 
 ```bash
-docker pull julienstroheker/osa-cli
-docker run --rm -it julienstroheker/osa-cli
+docker pull mcr.microsoft.com/osa/cli
+docker run --rm -it mcr.microsoft.com/osa/cli
 az openshift --help
 ```
 
