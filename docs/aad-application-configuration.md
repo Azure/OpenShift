@@ -50,19 +50,24 @@ Snippet Output :
 
 > Note : Don't use a hard coded value like `OSA_AAD_SECRET=MyAw3s0meP@ssw0rd!` in production. You may want to generate a random secret and copy the value in a safe place.
 
+Put the value of the output's `appId` in the variable `OSA_AAD_ID`, following the example above:
+
+```azurecli-interactive
+OSA_AAD_ID=57b4f673-af45-1223-1234-efb12fc0cd16
+```
+
+> Note : replace with the actual `appId` you got from the previous command.
+
 ## Create an Openshift Cluster on Azure using your own AAD Application
 
 After running the command from the previous section, you can deploy your cluster using those commands :
 
 ```azurecli-interactive
 OSA_FQDN=$OSA_CLUSTER_NAME.$LOCATION.cloudapp.azure.com
-OSA_AAD_ID=$(az ad app show --id $OSA_AAD_IDENTIFIER --query appId -o tsv)
 OSA_AAD_TENANT=$(az account show --query tenantId | tr -d '"')
 
 az openshift create --resource-group $OSA_CLUSTER_NAME --name $OSA_CLUSTER_NAME -l $LOCATION --fqdn $OSA_FQDN --aad-client-app-id $OSA_AAD_ID --aad-client-app-secret $OSA_AAD_SECRET --aad-tenant-id $OSA_AAD_TENANT
 ```
-
-> `OSA_AAD_ID` is the `appId` value from the previous command.
 
 > To get the tenant ID of your current subscription you can run the following command `az account list`
 
