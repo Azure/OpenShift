@@ -97,7 +97,7 @@ az group create --name $CLUSTER_NAME --location $LOCATION
 az openshift create --resource-group $CLUSTER_NAME --name $CLUSTER_NAME -l $LOCATION --fqdn $FQDN
 ```
 
-> **List of azure regions that supports OpenShift on Azure : [Supported Regions](supported-regions.md)**.
+> **List of azure regions that supports OpenShift on Azure : [Supported Regions](supported-resources.md#azure-regions)**.
 
 All being well, after 10-15 minutes `az openshift create` will complete
 successfully and return a JSON document containing your cluster details.
