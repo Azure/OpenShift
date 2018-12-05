@@ -14,19 +14,19 @@ where you can deploy your OpenShift managed clusters:
 |🇺🇸 West US|`westus`|
 |🇪🇺 West Europe|`westeurope`|
 
-## Azure  vM Sizes
+## Azure  VM Sizes
 
 The following is a list of supported virtual machine sizes you can specify for
 the compute nodes in your OpenShift managed cluster. There is a couple of caveats
 you must be aware of:
 
-1. Each  vM has a different number of drives that can be attached. This may not
+1. Each  VM has a different number of drives that can be attached. This may not
    be as immediately clear as memory or CPU size
-2. Not all  vM sizes are available in _all_ regions. So even if the API may support
+2. Not all  VM sizes are available in _all_ regions. So even if the API may support
    the size you are sending, if the size is not available in the region, an error
    will be thrown
 
-> **For more information check the [Current list of supported  vM sizes per region](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=virtual-machines)**
+> **For more information check the [Current list of supported  VM sizes per region](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=virtual-machines)**
 
 List of compute node sizes supported by the API:
 
