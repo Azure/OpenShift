@@ -137,12 +137,11 @@ created by the `az` CLI is hidden in the Azure portal.  In the relevant
 Currently, no modifications are permitted to the
 `Microsoft.ContainerService/openShiftManagedClusters` resource after creation,
 except for scaling up or down the number of compute nodes.  Currently the
-maximum number of compute nodes is limited to 5.
+maximum number of compute nodes is limited to 20.
 
 ## Limited VM sizes
 
-Currently, Managed OpenShift on Azure only permits use of Azure Standard_D2s_v3
-and Standard_D4s_v3 VM sizes.
+Managed OpenShift on Azure only permits use specifics VM Sizes, you can find all the supported SKU in the [supported resources documentation](./supported-resources.md#azure--vm-sizes).
 
 ## Cannot create cluster with FQDNs containing capital letters
 
