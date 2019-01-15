@@ -122,5 +122,5 @@ maximum number of compute nodes is limited to 20.
 
 ## Limited VM sizes
 
-Currently, Managed OpenShift on Azure only permits use of Azure Standard_D2s_v3
-and Standard_D4s_v3 VM sizes.
+Managed OpenShift on Azure only permits certain VM sizes to be used.  You can
+find the permitted sizes [here](./supported-resources.md#azure--vm-sizes).
