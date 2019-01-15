@@ -22,7 +22,7 @@ Set-AzureRmContext -SubscriptionId "<SUBSCRIPTION_ID>"
 - Accept marketplace agreements for the Azure Managed Applications and VM image.
 
 ```powershell
-Get-AzureRmMarketplaceTerms -Publisher redhat -Product osa -Name osa_310 | Set-AzureRmMarketplaceTerms -Accept
+Get-AzureRmMarketplaceTerms -Publisher redhat -Product osa -Name osa_311 | Set-AzureRmMarketplaceTerms -Accept
 
 Get-AzureRmMarketplaceTerms -Publisher osatesting -Product open-shift-azure-proxy-preview -Name byovnet | Set-AzureRmMarketplaceTerms -Accept
 
