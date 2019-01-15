@@ -92,25 +92,6 @@ tenant`.
 If this error occurs, it is expected to be a known one-off error.  Delete the
 cluster, wait for 15 minutes, and create the cluster again.
 
-## Log Analytics must use April 2018 pricing model
-
-Currently, OSA can only be deployed in subscriptions which use the April 2018
-Log Analytics pricing model.  Newly created subscriptions automatically use this
-model.
-
-- Confirm you are on the new model using the [Azure Monitoring - Usage and
-  estimated costs](https://portal.azure.com/?feature.customportal=false%2F#blade/Microsoft_Azure_Monitoring/AzureMonitoringBrowseBlade/usageAndCosts)
-  blade.
-
-- Select your subscription and then click on `Pricing model selection`.
-
-![Select subscription](./media/oms-billing-1.png)
-
-- If available and unchecked, check `Use the April 2018 pricing model` and click
-  `Save`.
-
-<img src="./media/oms-billing-2.png" width="50%">
-
 ## May not be possible to retry creation of a failed cluster
 
 Currently, in many circumstances, if creation of a cluster using the `az` CLI
@@ -149,8 +130,3 @@ and Standard_D4s_v3 VM sizes.
 Currently, the Azure API accepts cluster creation requests with FQDNs containing
 capital letters, but the creation later fails.  Do not include capital letters
 in FQDNs.
-
-## OMS Workspace region restrictions
-
-OMS workspace creation is not available in all regions due to capacity constraint and this might further be limited on a per subscription basis. 
-As a result of that, OpenShift on Azure will be using one region per sovereignty to maximize chances of successful cluster creation.
