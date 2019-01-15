@@ -118,7 +118,7 @@ created by the `az` CLI is hidden in the Azure portal.  In the relevant
 Currently, no modifications are permitted to the
 `Microsoft.ContainerService/openShiftManagedClusters` resource after creation,
 except for scaling up or down the number of compute nodes.  Currently the
-maximum number of compute nodes is limited to 5.
+maximum number of compute nodes is limited to 20.
 
 ## Limited VM sizes
 
