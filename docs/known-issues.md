@@ -124,9 +124,3 @@ maximum number of compute nodes is limited to 20.
 
 Currently, Managed OpenShift on Azure only permits use of Azure Standard_D2s_v3
 and Standard_D4s_v3 VM sizes.
-
-## Cannot create cluster with FQDNs containing capital letters
-
-Currently, the Azure API accepts cluster creation requests with FQDNs containing
-capital letters, but the creation later fails.  Do not include capital letters
-in FQDNs.
