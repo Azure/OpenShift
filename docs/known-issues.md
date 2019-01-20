@@ -3,36 +3,9 @@
 This page outlines known issues with Managed OpenShift on Azure (OSA), including
 workarounds if known.
 
-## Marketplace agreements must be accepted manually
-
-Currently, marketplace agreements for Azure Managed Applications and VM image
-must be accepted manually before deploying your first OSA cluster.
-
-- Run a Cloud Shell (PowerShell) session from the Azure portal.
-
-![Cloud Shell](./media/marketplace-cloudshell.png)
-
-- If you have access to multiple subscriptions, specify the relevant
-  subscription ID.
-
-```powershell
-Set-AzureRmContext -SubscriptionId "<SUBSCRIPTION_ID>"
-```
-
-- Accept marketplace agreements for the Azure Managed Applications and VM image.
-
-```powershell
-Get-AzureRmMarketplaceTerms -Publisher redhat -Product osa -Name osa_311 | Set-AzureRmMarketplaceTerms -Accept
-
-Get-AzureRmMarketplaceTerms -Publisher osatesting -Product open-shift-azure-proxy-preview -Name byovnet | Set-AzureRmMarketplaceTerms -Accept
-
-Get-AzureRmMarketplaceTerms -Publisher osatesting -Product open-shift-azure-proxy-preview -Name default | Set-AzureRmMarketplaceTerms -Accept
-```
-
 ## Providers and features must be registered manually
 
-Currently, the `Microsoft.ContainerService` `openshiftmanagedcluster` feature,
-`Microsoft.OperationalInsights` provider and `Microsoft.Solutions` provider must
+Currently, the `Microsoft.ContainerService` `openshiftmanagedcluster` feature and `Microsoft.Solutions` provider must
 be registered to your subscription manually before deploying your first OSA
 cluster.
 
@@ -57,18 +30,6 @@ Register-AzProviderFeature -ProviderNamespace Microsoft.ContainerService -Featur
 Get-AzureRmProviderFeature -ProviderNamespace Microsoft.ContainerService -FeatureName openshiftmanagedcluster | select RegistrationState
 ```
 
-- Register the Microsoft.OperationalInsights provider.
-
-```powershell
-Register-AzureRmResourceProvider -ProviderNamespace Microsoft.OperationalInsights
-```
-
-- Wait until the provider is showing RegistrationState `Registered`.
-
-```powershell
-Get-AzureRmResourceProvider -ProviderNamespace Microsoft.OperationalInsights | select RegistrationState
-```
-
 - Register the Microsoft.Solutions provider.
 
 ```powershell
@@ -80,17 +41,6 @@ Register-AzureRmResourceProvider -ProviderNamespace Microsoft.Solutions
 ```powershell
 Get-AzureRmResourceProvider -ProviderNamespace Microsoft.Solutions | select RegistrationState
 ```
-
-## First OSA cluster creation in a subscription may fail due to access token error
-
-Currently, the first OSA cluster creation in a subscription may fail with an
-error similar to `The access token for this request was issued by the tenant
-'...' which is neither the owner tenant '...' nor one of the tenants '...' which
-can manage this subscription '...'. The access token must be issued from proper
-tenant`.
-
-If this error occurs, it is expected to be a known one-off error.  Delete the
-cluster, wait for 15 minutes, and create the cluster again.
 
 ## May not be possible to retry creation of a failed cluster
 
