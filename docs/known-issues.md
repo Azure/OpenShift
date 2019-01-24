@@ -5,41 +5,33 @@ workarounds if known.
 
 ## Providers and features must be registered manually
 
-Currently, the `Microsoft.ContainerService` `openshiftmanagedcluster` feature and `Microsoft.Solutions` provider must
-be registered to your subscription manually before deploying your first OSA
-cluster.
+Currently, the `Microsoft.ContainerService` `openshiftmanagedcluster` feature, `Microsoft.Solutions` and `Microsoft.Network` providers must be registered to your subscription manually before deploying your first OSA cluster.
 
-- Run a Cloud Shell (PowerShell) session from the Azure portal.
+- Run a Cloud Shell (Bash) session from the Azure portal.
 
 - If you have access to multiple subscriptions, specify the relevant
   subscription ID.
 
-```powershell
-Set-AzureRmContext -SubscriptionId "<SUBSCRIPTION_ID>"
+```bash
+az account set --subscription <SUBSCRIPTION ID>
 ```
 
 - Register the Microsoft.ContainerService openshiftmanagedcluster feature.
 
-```powershell
-Register-AzProviderFeature -ProviderNamespace Microsoft.ContainerService -FeatureName openshiftmanagedcluster
-```
-
-- Wait until the feature is showing RegistrationState `Registered`.
-
-```powershell
-Get-AzureRmProviderFeature -ProviderNamespace Microsoft.ContainerService -FeatureName openshiftmanagedcluster | select RegistrationState
+```bash
+az feature register --namespace Microsoft.ContainerService -n openshiftmanagedcluster
 ```
 
 - Register the Microsoft.Solutions provider.
 
-```powershell
-Register-AzureRmResourceProvider -ProviderNamespace Microsoft.Solutions
+```bash
+az provider register -n Microsoft.Solutions --wait
 ```
 
-- Wait until the provider is showing RegistrationState `Registered`.
+- Register the Microsoft.Network provider.
 
-```powershell
-Get-AzureRmResourceProvider -ProviderNamespace Microsoft.Solutions | select RegistrationState
+```bash
+az provider register -n Microsoft.Network --wait
 ```
 
 ## May not be possible to retry creation of a failed cluster
