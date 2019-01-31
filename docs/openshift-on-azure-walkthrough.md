@@ -82,7 +82,7 @@ az openshift create --resource-group $CLUSTER_NAME --name $CLUSTER_NAME -l $LOCA
 All being well, after 10-15 minutes `az openshift create` will complete
 successfully and return a JSON document containing your cluster details.
 
-## Step 4: Navigate to the OpenShift on Azure cluster console
+## Step 3: Navigate to the OpenShift on Azure cluster console
 
 After `az openshift create` has completed, you should be able to open your
 browser and navigate to https://$FQDN/, e.g.
@@ -100,7 +100,7 @@ You should now be logged into the cluster console.
 
 ![](./media/OSA_Console.png)
 
-## Step 5: Use the oc CLI
+## Step 4: Use the oc CLI
 
 In the cluster console, click the question mark in the upper right corner and
 select `Command Line Tools`.  Follow the `Latest Release` link to download and
@@ -111,7 +111,7 @@ https://myuniqueclustername.eastus.cloudapp.azure.com --token=<hidden>`.  Click
 the copy to clipboard button to copy this command.  Paste it in your terminal to
 log in to the cluster using the oc CLI.
 
-## Step 6: Scale up to 5 compute nodes
+## Step 5: Scale up to 5 compute nodes
 
 From the Azure CLI, run:
 
