@@ -13,10 +13,6 @@ ms.date: 09/24/2018
 This quickstart will walk you through deploying a Managed OpenShift on Azure
 cluster using the Azure CLI.
 
-**Note:** OpenShift on Azure is not officially supported.  For technical
-questions, please open GitHub
-[issues](https://github.com/Azure/OpenShift/issues).
-
 ## Prerequisites
 
 It is **essential** to follow the following prerequisites before deploying an OSA
@@ -33,29 +29,13 @@ cluster for the first time in an Azure subscription.
   OSA cluster.  Follow the instructions in [known
   issues](known-issues.md#providers-and-features-must-be-registered-manually).
 
-- Docker is required to run the preview Azure CLI.  More information on how to
-  install Docker can be found [here](https://docs.docker.com/install/).
-
-## Step 1: Install the preview Azure CLI
-
-Currently, OpenShift on Azure requires use of a preview build of the Azure CLI
-published in a container image at `mcr.microsoft.com/osa/cli`.  It is recommended
-to run `docker pull mcr.microsoft.com/osa/cli` regularly to get CLI updates.
-
-Pull the preview Azure CLI image and run it to get to a bash prompt where the
-`az openshift` commands are available.
-
-```bash
-docker pull mcr.microsoft.com/osa/cli
-docker run --rm -it mcr.microsoft.com/osa/cli
-az openshift --help
-```
+- You can use either the [latest Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) or [Azure Cloud Shell](https://shell.azure.com/)
 
 ![](./media/OSA_AZ_CLI.png)
 
-## Step 2: Log in to Azure
+## Step 1: Log in to Azure
 
-From the preview Azure CLI image bash prompt, run `az login` to log in to Azure.
+If you are running the Azure CLI locally, run `az login` to log in to Azure.
 
 ```bash
 az login
@@ -64,7 +44,7 @@ az login
 If you have access to multiple subscriptions, run `az account set -s
 SUBSCRIPTION_ID` to default to the correct subscription.
 
-## Step 3: Create a Managed OpenShift on Azure cluster
+## Step 2: Create a Managed OpenShift on Azure cluster
 
 Choose a name and Azure location for your Managed OpenShift on Azure cluster.
 The fully qualified domain name (FQDN) of your cluster will be
@@ -85,7 +65,7 @@ Configuration](aad-application-configuration.md).
 It does not enable VNET peering on the cluster's VNET.  For details on how to do
 that, see [VNET Peering](vnet-peering.md).
 
-From the preview Azure CLI image bash prompt, run:
+From the Azure CLI, run:
 
 ```bash
 CLUSTER_NAME=myuniqueclustername
@@ -133,7 +113,7 @@ log in to the cluster using the oc CLI.
 
 ## Step 6: Scale up to 5 compute nodes
 
-From the preview Azure CLI image bash prompt, run:
+From the Azure CLI, run:
 
 ```bash
 az openshift scale --resource-group $CLUSTER_NAME --name $CLUSTER_NAME --compute-count 5
