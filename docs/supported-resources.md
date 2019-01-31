@@ -13,6 +13,7 @@ where you can deploy your OpenShift managed clusters:
 |🇺🇸 East US|`eastus`|
 |🇺🇸 West US|`westus`|
 |🇪🇺 West Europe|`westeurope`|
+|🇪🇺 North Europe|`northeurope`|
 
 ## Azure  VM Sizes
 
