@@ -104,12 +104,17 @@ You should now be logged into the cluster console.
 
 In the cluster console, click the question mark in the upper right corner and
 select `Command Line Tools`.  Follow the `Latest Release` link to download and
-install the supported oc CLI for Linux, MacOS or Windows.
+install the supported oc CLI for Linux, MacOS or Windows.  If you are unable to login to the Red Hat portal, the oc CLI is also available [here](https://www.okd.io/download.html).
+
+> **NOTE :** 
+If you do not see the question mark icon in the upper right corner, select Service Catalog or Application Console from the upper left hand drop-down.
 
 The same page also has a command of the form `oc login
 https://myuniqueclustername.eastus.cloudapp.azure.com --token=<hidden>`.  Click
 the copy to clipboard button to copy this command.  Paste it in your terminal to
-log in to the cluster using the oc CLI.
+log in to the cluster using the oc CLI.  
+
+Alternatively your token is available here: `https://myuniqueclustername.eastus.cloudapp.azure.com/oauth/token/request`
 
 ## Step 5: Scale up to 5 compute nodes
 
