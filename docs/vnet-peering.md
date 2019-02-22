@@ -12,7 +12,8 @@ ms.date: 10/04/2018
 
 The `az openshift create` command can create a Managed OpenShift on Azure
 cluster and peer its VNET to another VNET.  This feature is enabled with the
-`--vnet-peer-id $VNET_ID` flag.
+`--vnet-peer-id $VNET_ID` flag.  The peered VNET must be in the same subscription
+as the Managed OpenShift on Azure cluster.
 
 First, obtain the identifier of the VNET you want the cluster to peer with.  The
 identifier will be of the form
