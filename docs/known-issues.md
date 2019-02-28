@@ -74,8 +74,8 @@ Using the CLI to create a new OpenShift cluster by not passing any AAD Client va
 
 You need to ask your administrator to create one AAD Client first [using this documentation.](./aas-application-configuration.md)
 
-Create an OpenShift cluster using a custom AAD Client :
+Create an OpenShift cluster using a custom AAD Client:
 
 ```
-az openshift create -g MyResourceGroup -n MyManagedCluster --fqdn {FQDN}--aad-client-app-id {APP_ID} --aad-client-app-secret {APP_SECRET} --aad-tenant-id {TENANT_ID}
+az openshift create -g MyResourceGroup -n MyOpenShiftCluster --fqdn ${FQDN} --aad-client-app-id ${APP_ID} --aad-client-app-secret ${APP_SECRET} --aad-tenant-id ${TENANT_ID}
 ```
