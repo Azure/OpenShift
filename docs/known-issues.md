@@ -37,8 +37,7 @@ az provider register -n Microsoft.Network --wait
 ## May not be possible to retry creation of a failed cluster
 
 Currently, in many circumstances, if creation of a cluster using the `az` CLI
-fails, retrying creation will always fail.  In this case, use `az openshift
-delete` to delete the failed cluster and attempt to create an entirely new
+fails, retrying creation will always fail. In this case, use `az openshift delete` to delete the failed cluster and attempt to create an entirely new
 cluster.
 
 ## OpenShift server certificate is untrusted
@@ -50,7 +49,7 @@ certificate in your browser.
 ## OpenShift Managed Cluster resource is hidden by default
 
 Currently, the `Microsoft.ContainerService/openShiftManagedClusters` resource
-created by the `az` CLI is hidden in the Azure portal.  In the relevant
+created by the `az` CLI is hidden in the Azure portal. In the relevant
 `Resource group` view, check `Show hidden types` to view the resource.
 
 ![Hidden Type](./media/OSA_Portal_HiddenType.png)
@@ -59,10 +58,24 @@ created by the `az` CLI is hidden in the Azure portal.  In the relevant
 
 Currently, no modifications are permitted to the
 `Microsoft.ContainerService/openShiftManagedClusters` resource after creation,
-except for scaling up or down the number of compute nodes.  Currently the
+except for scaling up or down the number of compute nodes. Currently the
 maximum number of compute nodes is limited to 20.
 
 ## Limited VM sizes
 
-Managed OpenShift on Azure only permits certain VM sizes to be used.  You can
+Managed OpenShift on Azure only permits certain VM sizes to be used. You can
 find the permitted sizes [here](./supported-resources.md#azure--vm-sizes).
+
+## Azure Active Directory restriction
+
+Using the CLI to create a new OpenShift cluster by not passing any AAD Client values will try to automatically create one for you. The creation might fail with the following message :
+
+`Directory permission is needed for the current user to register the application. For how to configure, please refer 'https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal'. Original error: Insufficient privileges to complete the operation.`
+
+You need to ask your administrator to create one AAD Client first [using this documentation.](./aas-application-configuration.md)
+
+Create an OpenShift cluster using a custom AAD Client :
+
+```
+az openshift create -g MyResourceGroup -n MyManagedCluster --fqdn {FQDN}--aad-client-app-id {APP_ID} --aad-client-app-secret {APP_SECRET} --aad-tenant-id {TENANT_ID}
+```
