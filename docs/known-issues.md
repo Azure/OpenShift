@@ -34,6 +34,12 @@ az provider register -n Microsoft.Solutions --wait
 az provider register -n Microsoft.Network --wait
 ```
 
+- Refresh the registration of the Microsoft.ContainerService resource provider.
+
+```bash
+az provider register -n Microsoft.ContainerService --wait
+```
+
 ## May not be possible to retry creation of a failed cluster
 
 Currently, in many circumstances, if creation of a cluster using the `az` CLI
