@@ -18,14 +18,8 @@ cluster using the Azure CLI.
 It is **essential** to follow the following prerequisites before deploying an OSA
 cluster for the first time in an Azure subscription.
 
-- Currently, marketplace agreements for Azure Managed Applications and VM image
-  must be accepted manually before deploying your first OSA cluster.  Follow the
-  instructions in [known
-  issues](known-issues.md#marketplace-agreements-must-be-accepted-manually).
-
 - Currently, the `Microsoft.ContainerService` `openshiftmanagedcluster` feature,
-  `Microsoft.OperationalInsights` provider and `Microsoft.Solutions` provider
-  must be registered to your subscription manually before deploying your first
+  and `Microsoft.Solutions` provider must be registered to your subscription manually before deploying your first
   OSA cluster.  Follow the instructions in [known
   issues](known-issues.md#providers-and-features-must-be-registered-manually).
 
