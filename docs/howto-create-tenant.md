@@ -161,10 +161,10 @@ You should then see the Openshift container platform catalog in your browser. Yo
 
 ## Resources
 
-[Applications and service principals](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals)
-[Create a tenant](https://docs.microsoft.com/azure/active-directory/develop/quickstart-create-new-tenant)
+[Applications and service principals](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals)  
+[Create a tenant](https://docs.microsoft.com/azure/active-directory/develop/quickstart-create-new-tenant)  
 [Register an app with the Azure Active Directory v1.0 endpoint](https://docs.microsoft.com/azure/active-directory/develop/quickstart-v1-add-azure-ad-app)
 
-[appidimage]: ./media/howto-create-tenant/get-app-id.png
-[createkeyimage]: ./media/howto-create-tenant/create-key.png
-[tenantcallout]: ./media/howto-create-tenant/tenant-callout.png
+[appidimage]: ./media/howto-create-tenant/get-app-id.png  
+[createkeyimage]: ./media/howto-create-tenant/create-key.png  
+[tenantcallout]: ./media/howto-create-tenant/tenant-callout.png  
