@@ -49,9 +49,9 @@ An application that wants to use the capabilities of Azure AD must first be regi
 If the wrong tenant is displayed, click on your user name in the top right, then click **Switch Directory**, and select the directory created above from the **All Directories** list.
 2. Click on the following link to go to the [App registrations blade](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps)
 3. The **App registrations** blade appears. Click **+New application registration**.
-4. In the **Create** pane, enter a name for your application.
+4. In the **Create** pane, enter a friendly name (can be any name) for your application.
 5. Ensure that **Application type** is set to **Web app/API**.
-6. Create a **Sign-on URL** comprised of the name you will use when you create your cluster, the location of the cluster, and append `.cloudapp.azure.com` For example, if your cluster name is going to be `mycluster` (note that cluster names must be all lowercase), and you will be creating it in the `eastus` region, the fully-qualified domain name (FQDN) that you will enter for the **Sign-on URL** would be `https://mycluster.eastus.cloudapp.azure.com`  Remember this URL because you will need it to access the app running on your cluster.  This URL needs to be unique so take that into account when you decide on your cluster name in this step.
+6. Create a **Sign-on URL** comprised of the name you will use when you create your cluster, the location of the cluster, and append `.cloudapp.azure.com` For example, if your cluster name is going to be `mycluster` (note that the cluster name must be all lowercase), and you will be creating it in the `eastus` region, the fully-qualified domain name (FQDN) that you will enter for the **Sign-on URL** would be `https://mycluster.eastus.cloudapp.azure.com`  Remember this URL because you will need it to access the app running on your cluster.  This URL needs to be unique so take that into account when you decide on your cluster name in this step.
 7. Press Tab to move focus out of the **Sign-on URL** field to validate the URL.
 8. At the bottom of the Create pane, click **Create** to create the Azure Active Directory application object.
 
@@ -161,10 +161,10 @@ You should then see the Openshift container platform catalog in your browser. Yo
 
 ## Resources
 
-[Applications and service principals](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals)  
-[Create a tenant](https://docs.microsoft.com/azure/active-directory/develop/quickstart-create-new-tenant)  
+[Applications and service principals](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals)
+[Create a tenant](https://docs.microsoft.com/azure/active-directory/develop/quickstart-create-new-tenant)
 [Register an app with the Azure Active Directory v1.0 endpoint](https://docs.microsoft.com/azure/active-directory/develop/quickstart-v1-add-azure-ad-app)
 
-[appidimage]: ./media/howto-create-tenant/get-app-id.png  
-[createkeyimage]: ./media/howto-create-tenant/create-key.png  
-[tenantcallout]: ./media/howto-create-tenant/tenant-callout.png  
+[appidimage]: ./media/howto-create-tenant/get-app-id.png
+[createkeyimage]: ./media/howto-create-tenant/create-key.png
+[tenantcallout]: ./media/howto-create-tenant/tenant-callout.png
