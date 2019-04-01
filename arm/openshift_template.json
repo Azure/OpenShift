@@ -1,0 +1,116 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the cluster resource."
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "The location of cluster resource."
+            }
+        },
+        "fqdn": {
+            "type": "string",
+            "metadata": {
+                "description": "Fully qualified dns of the openshift cluster"
+            }
+        },
+        "agentCount": {
+            "type": "int",
+            "defaultValue": 5,
+            "metadata": {
+                "description": "The number of agent nodes for the cluster."
+            },
+            "minValue": 5,
+            "maxValue": 20
+        },
+        "servicePrincipalClientId": {
+            "metadata": {
+                "description": "Client ID (used by cloudprovider)."
+            },
+            "type": "securestring"
+        },
+        "servicePrincipalClientSecret": {
+            "metadata": {
+                "description": "The Service Principal Client Secret."
+            },
+            "type": "securestring"
+        },
+        "tenantId": {
+            "metadata": {
+                "description": "AAD Tenant Id."
+            },
+            "type": "securestring"
+        },
+        "customerAdminGroupId": {
+            "metadata": {
+                "description": "Cluster admin group Id."
+            },
+            "type": "securestring"
+        }
+    },
+    "resources": [
+      {
+        "location": "[parameters('location')]",
+        "name": "[parameters('resourceName')]",
+        "type": "Microsoft.ContainerService/openShiftManagedClusters",
+        "apiVersion": "2018-09-30-preview",
+        "properties": {
+          "openShiftVersion": "v3.11",
+          "fqdn": "[parameters('fqdn')]",
+          "networkProfile": {
+            "vnetCidr": "10.0.0.0/8"
+          },
+          "authProfile": {
+            "identityProviders": [
+              {
+                "name": "Azure AD",
+                "provider": {
+                  "kind": "AADIdentityProvider",
+                  "clientId": "[parameters('servicePrincipalClientId')]",
+                  "secret": "[parameters('servicePrincipalClientSecret')]",
+                  "tenantId": "[parameters('tenantId')]",
+                  "customerAdminGroupId": "[parameters('customerAdminGroupId')]"
+                }
+              }
+            ]
+          },
+          "masterPoolProfile": {
+            "name": "master",
+            "count": 3,
+            "subnetCidr": "10.0.0.0/24",
+            "vmSize": "Standard_D4s_v3",
+            "osType": "Linux"
+          },
+          "agentPoolProfiles": [
+            {
+              "role": "compute",
+              "name": "compute",
+              "count": "[parameters('agentCount')]",
+              "subnetCidr": "10.0.0.0/24",
+              "vmSize": "Standard_D4s_v3",
+              "osType": "Linux"
+            },
+            {
+              "role": "infra",
+              "name": "infra",
+              "count": 2,
+              "subnetCidr": "10.0.0.0/24",
+              "vmSize": "Standard_D4s_v3",
+              "osType": "Linux"
+            }
+          ],
+          "routerProfiles": [
+            {
+              "name": "default"
+            }
+          ]
+        }
+      }
+    ]
+  }

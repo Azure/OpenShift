@@ -71,6 +71,32 @@ az group create --name $CLUSTER_NAME --location $LOCATION
 az openshift create --resource-group $CLUSTER_NAME --name $CLUSTER_NAME -l $LOCATION --fqdn $FQDN
 ```
 
+From ARM copy the files from arm template folder, run:
+```bash
+CLUSTER_NAME=myuniqueclustername
+LOCATION=eastus
+FQDN=$CLUSTER_NAME.$LOCATION.cloudapp.azure.com
+AAD_SECRET=supersecret
+AAD_ID=herebeaadclientid
+AAD_TENANT=herebeaadtenant
+ADMIN_GROUP_ID=herebeadmingroupobjectid
+
+az group create --name $CLUSTER_NAME --location $LOCATION
+
+az group deployment create \
+    --name openshiftmanaged \
+    --resource-group $CLUSTER_NAME \
+    --template-file "arm/openshift_template.json" \
+    --parameters "arm/openshift_parameters.json" \
+    --parameters "resourceName=$CLUSTER_NAME" \
+        "location=$LOCATION" \
+        "fqdn=$FQDN" \
+        "servicePrincipalClientId=$AAD_ID" \
+        "servicePrincipalClientSecret=$AAD_SECRET" \
+        "tenantId=$AAD_TENANT" \
+        "customerAdminGroupId=$ADMIN_GROUP_ID"
+```
+
 > **List of azure regions that supports OpenShift on Azure : [Supported Regions](supported-resources.md#azure-regions)**.
 
 All being well, after 10-15 minutes `az openshift create` will complete

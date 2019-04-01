@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "resourceName": {
+            "value": "myuniqueclustername"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "fqdn": {
+            "value": "myuniqueclustername.westeurope.cloudapp.azure.com"
+        },
+        "agentCount": {
+            "value": 5
+        },
+        "servicePrincipalClientId": {
+            "value": "dummy"
+        },
+        "servicePrincipalClientSecret": {
+            "value": "dummy"
+        },
+        "tenantId": {
+            "value": "dummy"
+        },
+        "customerAdminGroupId": {
+            "value": "dummy"
+        }
+    }
+}
