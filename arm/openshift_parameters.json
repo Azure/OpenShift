@@ -15,16 +15,16 @@
             "value": 5
         },
         "servicePrincipalClientId": {
-            "value": "dummy"
+            "value": "herebeaadclientid"
         },
         "servicePrincipalClientSecret": {
-            "value": "dummy"
+            "value": "supersecret"
         },
         "tenantId": {
-            "value": "dummy"
+            "value": "herebeaadtenant"
         },
         "customerAdminGroupId": {
-            "value": "dummy"
+            "value": "herebeadmingroupobjectid"
         }
     }
 }
