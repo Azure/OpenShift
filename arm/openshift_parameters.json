@@ -15,16 +15,16 @@
             "value": 5
         },
         "servicePrincipalClientId": {
-            "value": "herebeaadclientid"
+            "value": "theClientIdOfTheAADApplication"
         },
         "servicePrincipalClientSecret": {
-            "value": "supersecret"
+            "value": "theSecretOfTheAADApplication"
         },
         "tenantId": {
-            "value": "herebeaadtenant"
+            "value": "theTenantIdOfTheAADTenant"
         },
         "customerAdminGroupId": {
-            "value": "herebeadmingroupobjectid"
+            "value": "theObjectIdOfTheAdminGroup"
         }
     }
 }

@@ -76,10 +76,10 @@ From ARM copy the files from arm template folder, run:
 CLUSTER_NAME=myuniqueclustername
 LOCATION=eastus
 FQDN=$CLUSTER_NAME.$LOCATION.cloudapp.azure.com
-AAD_SECRET=supersecret
-AAD_ID=herebeaadclientid
-AAD_TENANT=herebeaadtenant
-ADMIN_GROUP_ID=herebeadmingroupobjectid
+AAD_SECRET=theSecretOfTheAADApplication
+AAD_ID=theClientIdOfTheAADApplication
+AAD_TENANT=theTenantIdOfTheAADTenant
+ADMIN_GROUP_ID=theObjectIdOfTheAdminGroup
 
 az group create --name $CLUSTER_NAME --location $LOCATION
 
