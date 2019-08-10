@@ -1,3 +1,6 @@
+# THIS REPOSITORY IS NOW ARCHIVED
+[PLEASE CHECK OFICIAL AZURE DOCUMENTATION HERE](https://docs.microsoft.com/en-ca/azure/openshift/intro-openshift)
+
 # Managed OpenShift on Azure (OSA)
 
 ## Overview
