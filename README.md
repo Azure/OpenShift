@@ -1,19 +1,12 @@
-# THIS REPOSITORY IS NOW ARCHIVED
-[PLEASE CHECK OFICIAL AZURE DOCUMENTATION HERE](https://docs.microsoft.com/en-ca/azure/openshift/intro-openshift)
+# Azure Red Hat Openshift (ARO)
 
-# Managed OpenShift on Azure (OSA)
+[PLEASE CHECK OFFICIAL AZURE DOCUMENTATION HERE](https://docs.microsoft.com/en-ca/azure/openshift/intro-openshift)
 
 ## Overview
 
-This repo is intended for tracking issues with Managed OpenShift on Azure (OSA). It is monitored by the OSA product team. For direct customer support, please take a look at the [Azure Support options](https://azure.microsoft.com/support/options/). Note that the following channels are also monitored and should be used as suggested:
+This repo is intended for tracking issues with Azure Red Hat Openshift (ARO). It is monitored by the ARO product team. For direct customer support, please take a look at the [Azure Support options](https://azure.microsoft.com/support/options/). Note that the following channels are also monitored and should be used as suggested:
 
 - Updates about the service, including new features and new Azure regions: [OpenShift feed in Azure Updates](https://azure.microsoft.com/updates/?product=kubernetes-service)
-
-## Contents
-
-- [Quickstart: Deploying a Managed OpenShift on Azure cluster](/docs/openshift-on-azure-walkthrough.md)
-- [Supported Resources](/docs/supported-resources.md)
-- [Known Issues](/docs/known-issues.md)
 
 ## Code of conduct
 
