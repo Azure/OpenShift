@@ -1,5 +1,8 @@
 # Create an ARO 3.11 Private Cluster
 
+[!IMPORTANT]
+Please note that ARO private clusters are currently only available in private preview in East US. Private preview acceptance is by invitation only. Please be sure to register your subscription before attempting to enable this feature. 
+
 The Azure Red Hat OpenShift team is pleased to release private cluster functionality in private preview. Private clusters do not expose cluster control plane components (such as the API servers) on a public IP address.
 
 The VNet of a private cluster is configurable by customers, allowing them to set up networking to allow peering with other VNets, including ExpressRoute environments. Customers can also configure custom DNS on the VNet in order to integrate with internal services.
