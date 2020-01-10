@@ -1,7 +1,7 @@
 # Create an ARO 3.11 Private Cluster
 
 [!IMPORTANT]
-Please note that ARO private clusters are currently only available in private preview in East US. Private preview acceptance is by invitation only. Please be sure to register your subscription before attempting to enable this feature. 
+Please note that ARO private clusters are currently only available in private preview in East US 2. Private preview acceptance is by invitation only. Please be sure to register your subscription before attempting to enable this feature. 
 
 The Azure Red Hat OpenShift team is pleased to release private cluster functionality in private preview. Private clusters do not expose cluster control plane components (such as the API servers) on a public IP address.
 
@@ -35,7 +35,7 @@ Fill in the environment variables below as appropriate, using your cluster name,
 
 ```
 export CLUSTER_NAME=
-export LOCATION=westcentralus
+export LOCATION=eastus2
 export TOKEN=$(az account get-access-token --query 'accessToken' -o tsv)
 export SUBID=
 export TENANT_ID=
