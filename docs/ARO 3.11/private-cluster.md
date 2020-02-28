@@ -77,7 +77,9 @@ Using the environment variables defined above, here is a sample cluster configur
            "vmSize": "Standard_D4s_v3",
            "osType": "Linux",
            "subnetCIDR": "10.0.0.0/24",
-           "privateApiServer": true
+           "apiProperties": {
+            	"privateApiServer": true
+            }
        },
        "agentPoolProfiles": [
            {
