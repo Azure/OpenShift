@@ -74,10 +74,10 @@ az aro show -n $CLUSTER -g $RESOURCEGROUP -o tsv --query consoleProfile.url
 - [Configure DNS Forwarding](DNSForwarding.md)
 - [Configure Azure Monitor](AzureMonitor.md)
 
-### TODO:
-- **Known Issue:** You must setup a [Pull Secret](https://blog.openshift.com/building-rhel-based-containers-on-azure-red-hat-openshift/) in order to use the Red Hat container catalog.
-- **Known Issue:** AAD Pod Identity is not currently working.
-- **Research** [Key Vault integration](https://github.com/Azure/kubernetes-keyvault-flexvol)
+## Known Issues
+- You must setup a [Pull Secret](https://blog.openshift.com/building-rhel-based-containers-on-azure-red-hat-openshift/) in order to use the Red Hat container catalog.
+- AAD Pod Identity is not currently working as-is.
+- **Research** [Key Vault integration](https://github.com/Azure/kubernetes-keyvault-flexvol).  This should work if you do not depend on Pod Identity, but instead pass in the Service Principal.
 
 ## Code of conduct
 
