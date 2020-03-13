@@ -18,17 +18,17 @@ Ensure that you click **"Grant admin consent…"**
  
 ### Token Configuration
 
-Click on Token configuration (preview) in the SP and enable identities for email, family_name, and upn by clicking "Add optional claim" of type ID for any missing:
+Click on Token configuration (preview) in the SP and enable identities for `email`, `family_name`, and `upn` by clicking **Add optional claim** of type ID for any missing:
   
 ![Token Configuration](img/TokenConfiguration.jpg) 
 
 ### Configure the Authentication redirect
  
 Get the URL of the oauth end point:
- 
-echo "https://oauth-openshift.apps.$(az aro show -n $CLUSTER -g $RESOURCEGROUP -o tsv
---query clusterProfile.domain)"
- 
+```bash
+echo "https://oauth-openshift.apps.$(az aro show -n $CLUSTER -g $RESOURCEGROUP -o tsv --query clusterProfile.domain)"
+ ```
+
 Click on the "Authentication" tab and enter the Redirect URI returned from the command above:
  
 ![Redirect URI](img/RedirectUri.png) 
