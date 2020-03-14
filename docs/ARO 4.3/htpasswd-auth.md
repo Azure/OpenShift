@@ -5,42 +5,13 @@ Below are the steps to configure a local htpasswd based authentication provider 
 
 Usernames are passwords are stored in a secrets file and are accessed by a configured authentication provider.
 
-# create user database
-
-htpasswd -c -B aro-users.db admin (add admin user)
-htpasswd aro-users.db user1 (add a non-privileged user)
-htpasswd aro-users.db user2 (add another non-privileged user)
-cat aro-users.db
-
-# oc login 
-
-oc login --token=27ZljNlnEc8M8ORlssqCjyXSbEeAQfoZ3cIrBLGuG_0 --server=https://api.b7z01vg8.eastus.aroapp.io:6443
-oc create secret generic htp-secret --from-file ./aro-users.db -n openshift-config
-oc adm policy add-cluster-role-to-user cluster-admin admin
-Warning: User 'admin' not found can be ignored
-
-# add new user
-
-oc extract secret/htp-secret -n openshift-config --to - > aro-users.db
-htpasswd aro-users-db extrauser
-oc create secret generic htp-secret --from-file htpasswd=./aro-users.db --dry-run -o yaml | oc replace -n openshift-config -f -
-
 # create auth provider
 
+oc login --token=27ZljNlnEc8M8ORlssqCjyXSbEeAQfoZ3cIrBLGuG_0 --server=https://api.b7z01vg8.eastus.aroapp.io:6443
 oc get oauth cluster -o yaml > aro-oauth.yaml
+sed -i '$d' aro-oauth.yaml
 
-apiVersion: config.openshift.io/v1
-kind: OAuth
-metadata:
-  annotations:
-    release.openshift.io/create-only: "true"
-  creationTimestamp: "2020-03-13T19:32:13Z"
-  generation: 1
-  name: cluster
-  resourceVersion: "1989"
-  selfLink: /apis/config.openshift.io/v1/oauths/cluster
-  uid: 90ca32e3-802e-4ede-8f40-d857c990e534
-spec: {} <- Remove
+cat <<EOF >> aro-oauth.yaml
 spec:
   identityProviders:
   - htpasswd:
@@ -49,27 +20,43 @@ spec:
     mappingMethod: claim
     name: aro-users
     type: HTPasswd
+EOF
 
 # update auth provider
 
 oc replace -f ./aro-oauth.yaml 
 
-# verify users
+# create initial user database
 
+htpasswd -c -B aro-users.db admin (add admin user)
+htpasswd -B aro-users.db user1 (add a non-privileged user)
+htpasswd -B aro-users.db user2 (add another non-privileged user)
+cat aro-users.db
+
+# create initial user db secret file
+
+oc create secret generic htp-secret --from-file ./aro-users.db -n openshift-config
+oc adm policy add-cluster-role-to-user cluster-admin admin
+Warning: User 'admin' not found can be ignored
+oc login -u admin
+
+# verify logged in as admin
 oc get users
-
 oc get identity
+oc whoami
+
+# delete the kubeadmin default user
+oc delete secrets kubeadmin -n kube-system
+
+# add new user when user db secret file
+
+oc extract secret/htp-secret -n openshift-config --to - > aro-users.db
+htpasswd -B aro-users-db extrauser
+oc create secret generic htp-secret --from-file htpasswd=./aro-users.db --dry-run -o yaml | oc replace -n openshift-config -f -
 
 # set / change user's full name
 
 oc get identity aro-users:admin -o yaml
-
-
-
-# delete the kubeadmin user
-oc delete secrets kubeadmin -n kube-system
-
-
 
 
 You will need to modify the DNS Operator in ARO 4.3 in order for your application pods running inside the ARO 4.3 cluster to resolve names hosted on a private DNS server outside the cluster.  These steps are documented for OpenShift 4.3 [here](https://docs.openshift.com/container-platform/4.3/networking/dns-operator.html).
