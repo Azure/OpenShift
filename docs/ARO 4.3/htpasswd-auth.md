@@ -85,7 +85,7 @@ oc create secret generic htp-secret --from-file htpasswd=./aro-users.db --dry-ru
 ```
 
 ### Configure user's full name
-By default, users configured by this method do not have a **"Full Name"** associated with them. To configure the fullName attribute for each user, you will need to obtain the user resource from OpenShift. You can then append the fullName attribute to this file and then replace it. **Please note the casing of fullName which requires an upper-case 'N'**
+By default, users configured by this method do not have a **"Full Name"** associated with them. To configure the fullName attribute for each user, you will need to obtain the user resource from OpenShift. You can then append the fullName attribute to this file and then replace it. To change a user's full name, they must have either logged into the OpenShift Web Console or CLI prior to executing the commands below. **Please note the casing of fullName which requires an upper-case 'N'**
 ```bash
 oc get user admin -o yaml > adminfullname.yaml
 echo "fullName: 'Administrative User'" >> adminfullname.yaml
