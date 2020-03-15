@@ -60,7 +60,7 @@ Update the OpenShift authentication provider configuration and force-upload the 
 oc replace -f ./aro-oauth.yaml 
 oc create secret generic htp-secret --from-file htpasswd=./aro-users.db --dry-run -o yaml | oc replace -n openshift-config -f -
 ```
-![Redirect URI](img/htpasswd-28.jpg
+![Redirect URI](img/htpasswd-28.jpg)
 ### Login as Administrator & Verify account
 Login as the **admin** user which will be the new administrative/root user for your cluster. If the login and password combination you provide doesn't work, please wait a few minutes and try again as replication may not yet be completed.
 ```bash
