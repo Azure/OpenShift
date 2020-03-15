@@ -32,7 +32,7 @@ Create the initial authentication provider secrets file for OpenShift using the 
 oc create secret generic htp-secret --from-file ./aro-users.db -n openshift-config
 oc adm policy add-cluster-role-to-user cluster-admin admin --rolebinding-name=cluster-admin
 ```
-![Generate OpenShift Secret for htpasswd Auth Provider](img/htpasswd-16.jpg) 
+![Generate OpenShift Secret for htpasswd Auth Provider](img/htpasswd-30.jpg) 
 ### Obtain the current OpenShift authentication provider configuration
 Obtain the current OpenShift authentication provider configuration file. At this point, there should be no authentication providers configured.
 ```bash
