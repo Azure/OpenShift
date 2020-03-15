@@ -80,14 +80,14 @@ oc delete secrets kubeadmin -n kube-system
 When you wish to add additional users, you must append the current secrets file stored within OpenShift. Extract the current secrets file to the file aro-users.db, add additional user(s) using htpasswd and replace the secrets file.
 ```bash
 oc extract secret/htp-secret -n openshift-config --to - > aro-users.db
-htpasswd -B aro-users.db extrauser
+htpasswd -B aro-users.db unclebob
 oc create secret generic htp-secret --from-file htpasswd=./aro-users.db --dry-run -o yaml | oc replace -n openshift-config -f -
 ```
 
 ### Configure user's full name
 By default, users configured by this method do not have a **"Full Name"** associated with them. To configure the fullName attribute for each user, you will need to obtain the user resource from OpenShift. You can then append the fullName attribute to this file and then replace it. To change a user's full name, they must have either logged into the OpenShift Web Console or CLI prior to executing the commands below. **Please note the casing of fullName which requires an upper-case 'N'**
 ```bash
-oc get user admin -o yaml > adminfullname.yaml
-echo "fullName: 'Administrative User'" >> adminfullname.yaml
-oc replace -f adminfullname.yaml
+oc get user unclebob -o yaml > unclebobfullname.yaml
+echo "fullName: 'Uncle Bob'" >> unclebobfullname.yaml
+oc replace -f unclebobfullname.yaml
 ```
