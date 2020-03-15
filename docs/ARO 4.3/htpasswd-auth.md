@@ -70,7 +70,7 @@ oc get users
 oc get identity
 oc describe clusterrolebinding.rbac cluster-admin
 ```
-![Login As 'admin' and Verify Access](img/htpasswd-27.jpg) 
+![Login As 'admin' and Verify Access](img/htpasswd-29.jpg) 
 ### Delete the default kubeadmin virtual user
 Once you have verified that you can login as the **admin** user, you can now safely delete the kubeadmin user which was originally provisioned. This is a good security practice. After completing this step, you should now also be able to login to the OpenShift Web Console as the **admin** user and obtain full cluster access.
 ```bash
