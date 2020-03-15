@@ -30,7 +30,7 @@ cat aro-users.db
 Create the initial authentication provider secrets file for OpenShift using the htpasswd-based database file just created. The **admin** user is also granted full cluster-admin rights, however since the **admin** user has not logged in yet, an error meesage will likely be produced which can safely be ignored.
 ```bash
 oc create secret generic htp-secret --from-file ./aro-users.db -n openshift-config
-oc adm policy add-cluster-role-to-user cluster-admin admin
+oc adm policy add-cluster-role-to-user cluster-admin admin --rolebinding-name=cluster-admin
 ```
 ![Generate OpenShift Secret for htpasswd Auth Provider](img/htpasswd-16.jpg) 
 ### Obtain the current OpenShift authentication provider configuration
@@ -65,9 +65,10 @@ oc create secret generic htp-secret --from-file htpasswd=./aro-users.db --dry-ru
 Login as the **admin** user which will be the new administrative/root user for your cluster. If the login and password combination you provide doesn't work, please wait a few minutes and try again as replication may not yet be completed.
 ```bash
 oc login -u admin
+oc whoami
 oc get users
 oc get identity
-oc whoami
+oc describe clusterrolebinding.rbac cluster-admin
 ```
 ![Login As 'admin' and Verify Access](img/htpasswd-27.jpg) 
 ### Delete the default kubeadmin virtual user
