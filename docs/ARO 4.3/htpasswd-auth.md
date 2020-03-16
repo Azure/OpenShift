@@ -4,7 +4,7 @@ Below are the steps to configure a local htpasswd based authentication provider 
 
 Usernames and passwords are stored in a secrets file and are accessed by a configured authentication provider within OpenShift. The steps below outline the process for creating an encrypted secrets file, configuration of the OpenShift authentication provider and subsequent removal of the default *kubeadmin* user.
 
-These instructions presume that you have a **newly provisioned** Azure Red Hat OpenShift cluster running **version 4.3.3 or later** and have the OpenShift CLI installed. This can be obainted from the **origin-clients** RPM or by selecting **Command Line Tools** inside the OpenShift Web Console under the **?** icon in the upper-right corner.
+These instructions presume that you have a **newly provisioned** Azure Red Hat OpenShift cluster running **version 4.3.3 or later** and have the OpenShift CLI installed. This can be obainted from the **origin-clients** RPM or by selecting **Command Line Tools** inside the OpenShift Web Console under the **?** icon in the upper-right corner. In addition you will require the **htpasswd** binary which is typically found in the httpd-tools RPM or apache2-utils PKG.
 
 ---
 ### Login to the OpenShift CLI
@@ -26,7 +26,7 @@ htpasswd -B aro-users.db user2
 cat aro-users.db
 ```
 ![Create Initial Database File](img/htpasswd-15.jpg) 
-### Create initial OpenShift secret file and administrative account
+### Create the initial authentication provider secrets file and configure a new administrative account
 Create the initial authentication provider secrets file for OpenShift using the htpasswd-based database file just created. The **admin** user is also granted full cluster-admin rights, however since the **admin** user has not logged in yet, an error meesage will likely be produced which can safely be ignored.
 ```bash
 oc create secret generic htp-secret --from-file ./aro-users.db -n openshift-config
@@ -71,13 +71,13 @@ oc get identity
 oc describe clusterrolebinding.rbac cluster-admin
 ```
 ![Login As 'admin' and Verify Access](img/htpasswd-29.jpg) 
-### Delete the default kubeadmin virtual user
+### Delete the default kubeadmin virtual user (optional)
 Once you have verified that you can login as the **admin** user, you can now safely delete the kubeadmin user which was originally provisioned. This is a good security practice. After completing this step, you should now also be able to login to the OpenShift Web Console as the **admin** user and obtain full cluster access.
 ```bash
 oc delete secrets kubeadmin -n kube-system
 ```
 ![Delete Default 'kubeadmin' User](img/htpasswd-24.jpg) 
-### Adding new/subsquent htpasswd users when an existing secrets file exists
+### Adding new/subsquent htpasswd users when an existing secrets file exists (optional)
 When you wish to add additional users, that is, you've already completed the steps above to create an initial user database you must append the current secrets file stored within OpenShift. Extract the current secrets file to the file aro-users.db, add additional user(s) using htpasswd and replace the secrets file.
 ```bash
 oc extract secret/htp-secret -n openshift-config --to - > aro-users.db
@@ -85,11 +85,15 @@ htpasswd -B aro-users.db unclebob
 oc create secret generic htp-secret --from-file htpasswd=./aro-users.db --dry-run -o yaml | oc replace -n openshift-config -f -
 ```
 ![Adding Additional Users](img/htpasswd-25.jpg) 
-### Configure user's full name
+### Configure user's full name (optional)
 By default, users configured by this method do not have a **"Full Name"** associated with them. To configure the fullName attribute for each user, you will need to obtain the user resource from OpenShift. You can then append the fullName attribute to this file and then replace it. To change a user's full name, they must have either logged into the OpenShift Web Console or CLI prior to executing the commands below. **Please note the casing of fullName which requires an upper-case 'N'**
 ```bash
+oc login -u admin
+oc login -u unclebob
+oc login -u admin
 oc get user unclebob -o yaml > unclebobfullname.yaml
 echo "fullName: 'Uncle Bob'" >> unclebobfullname.yaml
 oc replace -f unclebobfullname.yaml
+oc get users
 ```
-![Customizing OpenShift fullName Attribute](img/htpasswd-26.jpg) 
+![Customizing OpenShift fullName Attribute](img/htpasswd-31.jpg) 
