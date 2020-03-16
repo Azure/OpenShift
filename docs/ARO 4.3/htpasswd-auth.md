@@ -4,7 +4,7 @@ Below are the steps to configure a local htpasswd based authentication provider 
 
 Usernames and passwords are stored in a secrets file and are accessed by a configured authentication provider within OpenShift. The steps below outline the process for creating an encrypted secrets file, configuration of the OpenShift authentication provider and subsequent removal of the default *kubeadmin* user.
 
-These instructions presume that you have a **newly provisioned** Azure Red Hat OpenShift cluster running **version 4.3.3 or later** and have the OpenShift CLI installed. This can be obainted from the **origin-clients** RPM or by selecting **Command Line Tools** inside the OpenShift Web Console under the **?** icon in the upper-right corner. In addition you will require the **htpasswd** binary which is typically found in the httpd-tools RPM or apache2-utils PKG.
+These instructions presume that you have a **newly provisioned** Azure Red Hat OpenShift cluster running **version 4.3.3 or later** and have the OpenShift CLI installed. This can be obainted from the **origin-clients** RPM or by selecting **Command Line Tools** inside the OpenShift Web Console under the **?** icon in the upper-right corner. In addition you will require the **htpasswd** binary which is typically found in the **httpd-tools** RPM or **apache2-utils** PKG.
 
 ---
 ### Login to the OpenShift CLI
