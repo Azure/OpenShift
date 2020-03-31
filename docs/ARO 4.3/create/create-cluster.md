@@ -13,7 +13,7 @@ ms.custom: mvc
 
 # Create an Azure Red Hat OpenShift cluster running OpenShift 4 (preview)
 
-[!INCLUDE [openshift-preview.md](includes/openshift-preview.md)]
+[!INCLUDE [openshift-preview.md](_includes/openshift-preview.md)]
 
 In article, you'll prepare your environment to create Azure Red Hat OpenShift clusters running OpenShift 4, currently in preview. You learn how to:
 
@@ -22,7 +22,7 @@ In article, you'll prepare your environment to create Azure Red Hat OpenShift cl
 > * Deploy a cluster
 > * Connect to the cluster using the `kubeadmin` user
 
-[!INCLUDE [cloud-shell-try-it.md](../../includes/cloud-shell-try-it.md)]
+[!INCLUDE [cloud-shell-try-it.md](../../_includes/cloud-shell-try-it.md)]
 
 If you choose to install and use the CLI locally, this tutorial requires that you are running the Azure CLI version 2.0.75 or later. Run `az --version` to find the version. If you need to install or upgrade, see [Install Azure CLI][azure-cli-install].
 
@@ -181,7 +181,7 @@ az aro create \
 >
 > By default OpenShift uses self-signed certificates for all of the routes created on `*.apps.<random>.<location>.aroapp.io`.  If you choose Custom DNS, after connecting to the cluster, you will need to follow the OpenShift documentation to [configure a custom CA for your ingress controller](https://docs.openshift.com/container-platform/4.3/authentication/certificates/replacing-default-ingress-certificate.html) and [custom CA for your API server](https://docs.openshift.com/container-platform/4.3/authentication/certificates/api-server.html).
 >
-> You can follow this article to [create testing certificates to use with your custom domain](custom-ca.md).
+> You can follow this article to [create testing certificates to use with your custom domain](../configure/custom-ca.md).
 
 ## Connect to the cluster
 
@@ -213,13 +213,13 @@ You can find the cluster console URL by running the following command, which wil
 
 Launch the console URL in a browser and login using the `kubeadmin` credentials.
 
-![Azure Red Hat OpenShift login screen](img/aro4-login.png)
+![Azure Red Hat OpenShift login screen](../_img/aro4-login.png)
 
 ## Install the OpenShift CLI
 
 Once you're logged into the OpenShift Web Console, click on the **?** on the top right and then on **Command Line Tools**. Download the release appropriate to your machine.
 
-![Azure Red Hat OpenShift login screen](img/aro4-download-cli.png)
+![Azure Red Hat OpenShift login screen](../_img/aro4-download-cli.png)
 
 You can also download the latest release of the CLI appropriate to your machine from <https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/>.
 
@@ -261,7 +261,7 @@ In this article, an Azure Red Hat OpenShift cluster running OpenShift 4 was depl
 Advance to the next article to learn how to configure the cluster for authentication using Azure Active Directory.
 
 > [!div class="nextstepaction"]
-> [Configure authentication with Azure Active Directory using the command line](tutorial-aro4-configure-azure-ad-cli.md)
+> [Configure authentication with Azure Active Directory using the command line](configure-azure-ad-cli.md)
 
 > [!div class="nextstepaction"]
-> [Configure authentication with Azure Active Directory using the Azure portal and OpenShift web console](tutorial-aro4-configure-azure-ad-cli.md)
+> [Configure authentication with Azure Active Directory using the Azure portal and OpenShift web console](configure-azure-ad-cli.md)

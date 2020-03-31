@@ -1,83 +1,39 @@
-# Create an ARO 4.3 Private Cluster
+# Documentation: Azure Red Hat OpenShift running on OpenShift 4
 
 ## Overview
 
-This document will walk you thorugh the steps to deploy a fully private Azure Red Hat OpenShift 4.3 cluster during the *preview of ARO 4.3* which includes:
+This document is a table of content for draft documentation of Azure Red Hat OpenShift running on OpenShift 4 during preview.
 
-- Bring your own private Azure VNET
-- Private API Server
-- Private Router (ingress controller)
-- Custom DNS forarded to on-premises DNS Server
-- Azure Active Directory Integration
-- Restricted User Access and RBAC for project creation
+## Table of content
 
-## Creating an ARO Cluster 
-
-### Prerequisites
-
-ARO 4.3 is currently in *preview* and as such is subject to change.  Please follow the documentation to [create an Azure Red Hat OpenShift 4.3 Cluster](https://docs.microsoft.com/en-us/azure/openshift/howto-using-azure-redhat-openshift), but do not run the command to create a cluster yet.
-
-When following the step to [Create a cluster](https://docs.microsoft.com/en-us/azure/openshift/howto-using-azure-redhat-openshift#create-a-cluster), you will need to add these additional parameters to create a private cluster.  Optionally, you can specify a custom DNS to be used by the router, including the console.
-
-```bash
-az aro create \
-  -g "$RESOURCEGROUP" \
-  -n "$CLUSTER" \
-  --vnet "dev-vnet" \
-  --master-subnet "$CLUSTER-master" \
-  --worker-subnet "$CLUSTER-worker" \
-  --apiserver-visibility Private \ 
-  --ingress-visibility Private
-  # [OPTIONAL] custom domain:
-  # --domain aro.example.com
-```
-
-### Custom DNS
-If you choose to specify a custom domain, the openshift console will be available at a URL such as `https://console-openshift-console.apps.aro.example.com`, instead of the built-in domain `https://console-openshift-console.apps.<random>.<location>.aroapp.io`.
-
-By default OpenShift uses self-signed certificates for all of the routes created on `*.apps.<random>.<location>.aroapp.io`.  If you choose Custom DNS, after connecting to the cluster, you will need to follow the OpenShift documentation to [configure a custom CA for your ingress controller](https://docs.openshift.com/container-platform/4.3/authentication/certificates/replacing-default-ingress-certificate.html) and [custom CA for your API server](https://docs.openshift.com/container-platform/4.3/authentication/certificates/api-server.html).  
-
-## Connecting to the ARO Cluster 
-
-In order to connect to a private ARO cluster, you will need to perform the following steps from a host that is either in the VNET you created or in a VNET that is [peered](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview) with the VNET ARO was deployed to.
-
-1. Get the API server address:
-```bash
-KUBEAPI=$(az aro show -n $CLUSTER -g $RESOURCEGROUP -o tsv --query apiserverProfile.url)
-```
-
-2. Get the kubeadmin password:
-```bash
-KUBEPWD=$(az aro list-credentials -n $CLUSTER -g $RESOURCEGROUP -o tsv --query kubeadminPassword)
-```
-
-3. Install the 4.x oc cli:
-```bash
-wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.3.1/openshift-client-linux-4.3.1.tar.gz
-tar -xf openshift-client-linux-4.3.1.tar.gz
-``` 
-
-4. Login to the cluster using kubeadmin with the oc cli:
-```bash 
-./oc login $KUBEAPI -u kubeadmin -p $KUBEPWD
-```
-
-5. Display the URL of the cluster web console:
-```bash 
-az aro show -n $CLUSTER -g $RESOURCEGROUP -o tsv --query consoleProfile.url
-```
-
-## Next Steps
-
-- [AAD Integration](AADIntegration.md)
-- [Limit Project Creation](LimitSelfProvisioning.md)
-- [Configure DNS Forwarding](DNSForwarding.md)
-- [Configure Azure Monitor](AzureMonitor.md)
+* Concepts
+    * [Network setup [need help]]() - ie: VNet setup, DNS, Private Link, pod-to-pod communication, network plugin, ..
+    * [Private vs Public clusters [need help]]() - ie: What's a private cluster exactly, how does dealing with it differ than with public clusters, ..
+    * [Minimum privileges [need help]]() - ie: Minimum service principal privileges needed to provision and manage a cluster
+    * [Availability Zones [need help]]() - ie: With the cluster deployed against 3 AZs when available, what does this mean in terms of availability, scaling, ..
+    * [Cluster patching and upgrades [need help]]() - ie: What goes on when a cluster needs to be patched/upgraded, ..
+    * [Monitoring options [need help]]() - ie: What are the built-in monitoring options in OpenShift 4, including integration with Azure Monitor
+* Operations
+    * Cluster creation
+      * [Create a cluster](create/create-cluster.md)
+      * [Create a private cluster](create/create-private-cluster.md)
+    * Security and authentication
+      * [Configure Azure Active Directory authentication using the CLI](secure/configure-azure-ad-cli.md)
+      * [Configure Azure Active Directory authentication using the UI](secure/configure-azure-ad-ui.md)
+      * [Configure htpasswd authentication [draft]](secure/htpasswd-auth.md)
+      * [Limit users which can create projects [draft]](secure/limit-self-provisioning.md)
+      * [Configure projects, users and group roles [need help]]() - ie: How to assign users/groups to projects with varying permissions. Bonus if can be connected to Azure AD Groups. 
+    * Cluster configuration and management
+      * [Configure a custom Certificate Authority (CA) [draft]](configure/custom-ca.md)
+      * [Configure DNS forwarding for on-premises DNS servers [draft]](configure/dns-forwarding.md)
+      * [Scale a cluster [need help]]() - ie: How to scale a cluster with MachineSet vs Azure constructs, cluster-autoscaler, ..
+      * [Configure monitoring using Azure Monitor [draft]](https://docs.microsoft.com/en-us/azure/openshift/howto-azure-monitor-v4) - needs some cleanup
 
 ## Known Issues
-- You must setup a [Pull Secret](https://blog.openshift.com/building-rhel-based-containers-on-azure-red-hat-openshift/) in order to use the Red Hat container catalog.
-- AAD Pod Identity is not currently working as-is.
-- **Research** [Key Vault integration](https://github.com/Azure/kubernetes-keyvault-flexvol).  This should work if you do not depend on Pod Identity, but instead pass in the Service Principal.
+
+* If you want to use containers from the Red Hat container catalog, you must setup a [Pull Secret](https://blog.openshift.com/building-rhel-based-containers-on-azure-red-hat-openshift/).
+* Azure Active Directory Pod Identity is not currently working as-is.
+* **Research** [Key Vault integration](https://github.com/Azure/kubernetes-keyvault-flexvol).  This should work if you do not depend on Pod Identity, but instead pass in the Service Principal.
 
 ## Code of conduct
 
