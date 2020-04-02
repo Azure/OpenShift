@@ -1,8 +1,16 @@
-# Documentation: Azure Red Hat OpenShift running on OpenShift 4
+
+# Azure Red Hat Openshift
 
 ## Overview
 
-This document is a table of content for draft documentation of Azure Red Hat OpenShift running on OpenShift 4 during preview.
+This repo is intended for tracking issues with Azure Red Hat Openshift. It is monitored by the product team. For direct customer support, please take a look at the [Azure Support options](https://azure.microsoft.com/support/options/). Note that the following channels are also monitored and should be used as suggested:
+
+- Updates about the service, including new features and new Azure regions: [OpenShift feed in Azure Updates](https://azure.microsoft.com/updates/?product=openshift)
+
+## Documentation
+
+Below is a table of content for draft documentation of Azure Red Hat OpenShift running on OpenShift 4 during preview.
+[PLEASE CHECK OFFICIAL AZURE DOCUMENTATION HERE](https://docs.microsoft.com/en-ca/azure/openshift/intro-openshift).
 
 ## Table of content
 
