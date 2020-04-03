@@ -173,6 +173,7 @@ az aro create \
   --apiserver-visibility Private \
   --ingress-visibility Private
   # --domain aro.example.com # [OPTIONAL] custom domain
+  # --pull-secret 'Pull secret from https://cloud.redhat.com/openshift/install/azure/installer-provisioned/' # [OPTIONAL]
 ```
 
 >[!NOTE]
