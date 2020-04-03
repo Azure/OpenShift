@@ -171,7 +171,7 @@ az aro create \
   --master-subnet master-subnet \
   --worker-subnet worker-subnet
   # --domain foo.example.com # [OPTIONAL] custom domain
-  # --pull-secret "Pull secret from https://cloud.redhat.com/openshift/install/azure/installer-provisioned/" # [OPTIONAL] 
+  # --pull-secret 'Pull secret from https://cloud.redhat.com/openshift/install/azure/installer-provisioned/' # [OPTIONAL] 
 ```
 
 >[!NOTE]
