@@ -161,7 +161,7 @@ az network vnet subnet update \
 
 ## Create the cluster
 
-Run the following command to create a cluster. Note the `apiserver-visibility` and the `ingress-visibility` parameters.
+Run the following command to create a cluster. Note the `apiserver-visibility` and the `ingress-visibility` parameters. Optionally, you can pass a pull secret which enables your cluster to access Red Hat container registries along with additional content. Access your pull secret by navigating to the [Red Hat OpenShift Cluster Manager](https://cloud.redhat.com/openshift/install/azure/installer-provisioned) and clicking Copy Pull Secret.
 
 ```azurecli-interactive
 az aro create \
@@ -173,6 +173,7 @@ az aro create \
   --apiserver-visibility Private \
   --ingress-visibility Private
   # --domain aro.example.com # [OPTIONAL] custom domain
+  # --pull-secret 'Pull secret from https://cloud.redhat.com/openshift/install/azure/installer-provisioned/' # [OPTIONAL]
 ```
 
 >[!NOTE]
