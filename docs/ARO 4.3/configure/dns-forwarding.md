@@ -28,7 +28,7 @@ To quickly validate the new DNS forwarding setup, you can do the following:
 ```bash
 
 # Test the DNS resolution
-kubectl run --generator=run-pod/v1 -it --rm aro-ssh --image=debian
+oc run --generator=run-pod/v1 -it --rm aro-ssh --image=debian
 # Once you are in the interactive session, execute the following commands (replace the FQDN with yours)
 apt-get update
 apt-get install dnsutils -y
