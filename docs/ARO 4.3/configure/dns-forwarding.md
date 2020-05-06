@@ -33,5 +33,15 @@ oc run --generator=run-pod/v1 -it --rm aro-ssh --image=debian
 apt-get update
 apt-get install dnsutils -y
 nslookup REPLACE.YOURDOMAIN.corp.
+# Output should looklike:
+# Server:         172.30.0.10
+# Address:        172.30.0.10#53
+
+# Non-authoritative answer:
+# Name:   REPLACE.YOURDOMAIN.corp
+# Address: 10.165.5.4
+
+# Terminate the session
+exit
 
 ```
